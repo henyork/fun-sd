@@ -1,0 +1,1 @@
+--incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "sd_receiver_tb_behav" "xil_defaultlib.sd_receiver_tb" -log "elaborate.log" 
