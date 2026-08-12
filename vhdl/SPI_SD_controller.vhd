@@ -113,13 +113,27 @@ command <= (others => '0');
                 command <= command_CMD0;
                 reset <= '1';
             when start_shift =>
+                command <= command_CMD0;
                 reset <= '0';
                 start_en <= '1';
             when works =>
                 LED_EN <= '1';
             when failed =>
                 LED_EN <= '0';
+            when others =>
+                LED_EN <= '0';
+                --do nothing
         end case;
 end process output_logic;
+
+counter : process(clk_port) begin
+    if rising_edge(clk_port) then
+        if currentstate = prep then
+            prep_tc <= prep_tc +1;
+        else
+            prep_tc <= 0;
+        end if;
+    end if;
+ end process;
 
 end Behavioral;

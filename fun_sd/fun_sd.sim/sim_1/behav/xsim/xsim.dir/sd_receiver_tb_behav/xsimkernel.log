@@ -2,3 +2,6 @@ Running: xsim.dir/sd_receiver_tb_behav/xsimk.exe -simmode gui -wdb sd_receiver_t
 Design successfully loaded
 Design Loading Memory Usage: 30544 KB (Peak: 30544 KB)
 Design Loading CPU Usage: 452 ms
+Simulation completed
+Simulation Memory Usage: 31624 KB (Peak: 31624 KB)
+Simulation CPU Usage: 515 ms

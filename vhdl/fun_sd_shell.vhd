@@ -33,14 +33,39 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity fun_sd_shell is
     Port (
+        clk_ext_port : in std_logic;
         sd_cs_ext_port : out std_logic;
         sd_sck_ext_port : out std_logic;
         sd_mosi_ext_port : out std_logic;
-        sd_miso_ext_port : out std_logic
+        sd_miso_ext_port : in std_logic;
+        led_ext_port : out std_logic
      );
 end fun_sd_shell;
 
 architecture Behavioral of fun_sd_shell is
+
+
+signal start : std_logic := '0';
+signal idle : std_logic := '0';
+signal full : std_logic := '0';
+signal reset : std_logic := '0';
+signal receiver_data   : std_logic_vector(0 to 39);
+signal transmitter_data :std_logic_vector(0 to 47);
+signal system_clk : std_logic := '0';
+
+component SPI_SD_controller is
+  Port (clk_port    : in std_logic;
+        receiver_reg   : in std_logic_vector(0 to 39);
+        idle_trans     : in std_logic;
+        full_rec        : in std_logic;
+  
+        CS_port     : out std_logic;
+        start_en    :  out std_logic;
+        reset       : out  std_logic;
+        LED_EN      : out std_logic;
+        command :   out std_logic_vector(0 to 47)
+ );
+end component;
 
 component sd_receiver is                                
     Port (                                              
@@ -49,10 +74,9 @@ component sd_receiver is
     data_port : out std_logic_vector(39 downto 0);      
     full_port : out std_logic;                          
     reset_port : in std_logic                           
-                                                        
+                                         
  );                                                     
 end component;                                          
-
 
 component sd_transmitter is
     Port (
@@ -72,18 +96,47 @@ component system_clock_generator is
 		fwd_clk_port		: out std_logic);
 end component;
 
-
 begin
-    
-    
-receiever : sd_receiever
 
+controller : spi_sd_controller
 port map(
-    miso_port = > miso_ext_port,
     clk_port => system_clk,
-    data_port => 
-    start_port =>
-    idle_port => 
-    
+    receiver_reg => receiver_data,
+    idle_trans => idle,
+    full_rec => full,     
+    CS_port => sd_cs_ext_port,
+    start_en => start,
+    reset => reset,
+    LED_EN => led_ext_port,
+    command => transmitter_data
+);
+
+clock_gen : system_clock_generator 
+generic map(
+    clock_divider_ratio => 10)
+port map(
+    input_clk_port => clk_ext_port,
+    system_clk_port => system_clk,
+    fwd_clk_port => sd_sck_ext_port
+);
+
+receiever : sd_receiver
+port map(
+    miso_port => sd_miso_ext_port,
+    clk_port => system_clk,
+    data_port => receiver_data,
+    reset_port => reset,
+    full_port => full
+);
+
+transmitter : sd_transmitter
+port map(
+    clk_port => system_clk,
+    mosi_port => sd_mosi_ext_port,
+    data_port => transmitter_data,
+    start_port => start,
+    idle_port => idle
+
+);
 
 end Behavioral;

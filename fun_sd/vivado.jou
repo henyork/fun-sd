@@ -133,3 +133,76 @@ update_compile_order -fileset sources_1
 update_compile_order -fileset sources_1
 update_compile_order -fileset sources_1
 update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+add_files -norecurse O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+add_files -fileset sim_1 -norecurse O:/ENGS31/fun-sd/vhdl/sd_controller_henry_tb.vhd
+update_compile_order -fileset sim_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top sd_shell_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+close_sim
+launch_simulation
+launch_simulation
+source sd_shell_tb.tcl
+set_property -name {xsim.simulate.runtime} -value {10000ns} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+source sd_shell_tb.tcl
+current_wave_config {Untitled 17}
+add_wave {{/sd_shell_tb/uut/controller/currentstate}} 
+current_wave_config {Untitled 17}
+add_wave {{/sd_shell_tb/uut/controller/idle_trans}} 
+current_wave_config {Untitled 17}
+add_wave {{/sd_shell_tb/uut/controller/prep_tc}} 
+close_sim
+launch_simulation
+source sd_shell_tb.tcl
+current_wave_config {Untitled 18}
+add_wave {{/sd_shell_tb/uut/controller/currentstate}} 
+current_wave_config {Untitled 18}
+add_wave {{/sd_shell_tb/uut/controller/nextstate}} 
+current_wave_config {Untitled 18}
+add_wave {{/sd_shell_tb/uut/controller/prep_tc}} 
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+launch_simulation
+source sd_shell_tb.tcl
+current_wave_config {Untitled 19}
+add_wave {{/sd_shell_tb/uut/controller/prep_tc}} 
+current_wave_config {Untitled 19}
+add_wave {{/sd_shell_tb/uut/controller/currentstate}} 
+set_property -name {xsim.simulate.runtime} -value {40000ns} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+source sd_shell_tb.tcl
+current_wave_config {Untitled 20}
+add_wave {{/sd_shell_tb/uut/controller/prep_tc}} 
+current_wave_config {Untitled 20}
+add_wave {{/sd_shell_tb/uut/controller/currentstate}} 
+current_wave_config {Untitled 20}
+add_wave {{/sd_shell_tb/uut/transmitter/data_port}} 
+current_wave_config {Untitled 20}
+add_wave {{/sd_shell_tb/uut/transmitter/current_state}} 
+current_wave_config {Untitled 20}
+add_wave {{/sd_shell_tb/uut/transmitter/start_port}} 
+close_sim
+launch_simulation
+source sd_shell_tb.tcl
+current_wave_config {Untitled 21}
+add_wave {{/sd_shell_tb/uut/transmitter/current_state}} 
+close_sim
