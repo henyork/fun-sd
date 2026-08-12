@@ -37,3 +37,99 @@ add_wave {{/sd_receiver_tb/uut/data_port}}
 close_sim
 launch_simulation
 source sd_receiver_tb.tcl
+close_sim
+launch_simulation
+source sd_receiver_tb.tcl
+close_sim
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top sd_transmitter_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+launch_simulation
+launch_simulation
+source sd_transmitter_tb.tcl
+current_wave_config {Untitled 4}
+add_wave {{/sd_transmitter_tb/uut/tc}} 
+close_sim
+launch_simulation
+source sd_transmitter_tb.tcl
+close_sim
+launch_simulation
+launch_simulation
+source sd_transmitter_tb.tcl
+close_sim
+launch_simulation
+source sd_transmitter_tb.tcl
+close_sim
+launch_simulation
+source sd_transmitter_tb.tcl
+close_sim
+launch_simulation
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top sd_receiver_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+launch_simulation
+update_compile_order -fileset sim_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top sd_transmitter_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top sd_receiver_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+launch_simulation
+source sd_receiver_tb.tcl
+close_sim
+launch_simulation
+source sd_receiver_tb.tcl
+current_wave_config {Untitled 10}
+add_wave {{/sd_receiver_tb/uut/data_port}} 
+current_wave_config {Untitled 10}
+add_wave {{/sd_receiver_tb/uut/miso_port}} 
+current_wave_config {Untitled 10}
+add_wave {{/sd_receiver_tb/uut/tc}} 
+close_sim
+launch_simulation
+source sd_receiver_tb.tcl
+current_wave_config {Untitled 11}
+add_wave {{/sd_receiver_tb/uut}} 
+set_property -name {xsim.simulate.saif_all_signals} -value {true} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+source sd_receiver_tb.tcl
+current_wave_config {Untitled 12}
+add_wave {{/sd_receiver_tb/uut/tc}} 
+set_property -name {xsim.simulate.log_all_signals} -value {true} -objects [get_filesets sim_1]
+set_property -name {xsim.simulate.saif_all_signals} -value {false} -objects [get_filesets sim_1]
+close_sim
+launch_simulation
+source sd_receiver_tb.tcl
+current_wave_config {Untitled 13}
+add_wave {{/sd_receiver_tb/uut/tc}} 
+current_wave_config {Untitled 13}
+add_wave {{/sd_receiver_tb/uut/shift_reg}} 
+close_sim
+launch_simulation
+source sd_receiver_tb.tcl
+close_sim
+launch_simulation
+source sd_receiver_tb.tcl
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1

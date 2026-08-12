@@ -33,9 +33,9 @@ component sd_transmitter is
     Port (
     clk_port : in std_logic;
     mosi_port : out std_logic;
-    data_port : in std_logic_vector(47 downto 0);
-    load_en_port : in std_logic;
-    shift_en_port : in std_logic
+    data_port : in std_logic_vector(0 to 47);
+    start_port : in std_logic;
+    idle_port : out std_logic
 
  );
 end component;
@@ -48,14 +48,14 @@ signal system_clk       : std_logic := '0';
 signal mosi : std_logic := '0';
 signal spi_sclk         : std_logic := '0' ;
 signal spi_cs           : std_logic := '1';
-signal load_en : std_logic := '0';
-signal shift_en : std_logic := '0';
-signal data : std_logic_vector(47 downto 0) := (others => '0');
+signal start : std_logic := '0';
+signal idle : std_logic := '0';
+signal data : std_logic_vector(0 to 47) := (others => '0');
 -- Clock period definitions
 constant clk_period     : time := 10ns;		-- 100 MHz clock
 
 -- Data definitions
-constant TxData         : std_logic_vector(47 downto 0) := "1001" & x"bcabcabcab" & "1101";
+constant TxData         : std_logic_vector(0 to 47) := "0000" & x"bcabcabcab" & "1110";
 
 
 	
@@ -68,8 +68,8 @@ port map(
 	clk_port    => clk_ext,
 	mosi_port 	=> mosi,
 	data_port   => data,
-	load_en_port  => load_en,
-	shift_en_port => shift_en);
+	start_port  => start,
+	idle_port => idle);
 
 clocking: system_clock_generator 
 generic map(
@@ -106,13 +106,11 @@ end process;
 stim_proc: process
 begin
     data <= TxData;
-    load_en <= '1';
-    wait for clk_period * 2;
-    load_en <= '0';
-    wait for clk_period * 2;
-    shift_en <= '1';
-    wait for clk_period * 48;
-    shift_en <= '0';
+    wait for clk_period;
+    start <= '1';
+    wait for clk_period;
+    start <= '0';
+    wait for clk_period * 50;
 
 end process;
 END;

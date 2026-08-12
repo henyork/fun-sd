@@ -34,8 +34,8 @@ component sd_receiver is
     clk_port : in std_logic;
     miso_port : in std_logic;
     data_port : out std_logic_vector(39 downto 0);
-    load_en_port : in std_logic;
-    shift_en_port : in std_logic
+    full_port : out std_logic;
+    reset_port : in std_logic
 
  );
 end component;
@@ -48,9 +48,9 @@ signal system_clk       : std_logic := '0';
 signal miso : std_logic := '0';
 signal spi_sclk         : std_logic := '0' ;
 signal spi_cs           : std_logic := '1';
-signal load_en : std_logic := '0';
-signal shift_en : std_logic := '0';
-signal data : std_logic_vector(39 downto 0) := (others => '0');
+signal full : std_logic := '0';
+signal reset : std_logic := '0';
+signal data : std_logic_vector(0 to 39) := (others => '0');
 -- Clock period definitions
 constant clk_period     : time := 10ns;		-- 100 MHz clock
 
@@ -68,8 +68,8 @@ port map(
 	clk_port    => clk_ext,
 	miso_port 	=> miso,
 	data_port   => data,
-	load_en_port  => load_en,
-	shift_en_port => shift_en);
+	reset_port  => reset,
+	full_port => full);
 
 clocking: system_clock_generator 
 generic map(
@@ -105,18 +105,21 @@ end process;
 --Your design is working properly if you recover abc in your adc_data register.
 stim_proc: process
 begin
-    shift_en <= '1';
+    reset <= '1';
+    wait for clk_period;
+    reset <= '0';
+    wait for clk_period*5;
     miso <= '1';
     wait for clk_period * 2;
     miso <= '0';
-    wait for clk_period * 1;
+    wait for clk_period * 3;
     miso <= '1';
-    wait for clk_period * 37;
-    shift_en <= '0';
-    
-    load_en <= '1';
-    wait for clk_period;
-    load_en <= '0';
+    wait for clk_period * 3;
+    miso <= '0';
+    wait for clk_period * 50;
+    reset <= '1';
+     
+
 
 end process;
 END;

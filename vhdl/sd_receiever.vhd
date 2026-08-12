@@ -36,8 +36,8 @@ Port (
     clk_port : in std_logic;
     miso_port : in std_logic;
     data_port : out std_logic_vector(39 downto 0);
-    load_en_port : in std_logic;
-    shift_en_port : in std_logic
+    reset_port : in std_logic;
+    full_port : out std_logic
 
  );
 end sd_receiver;
@@ -46,20 +46,86 @@ end sd_receiver;
 
 architecture Behavioral of sd_receiver is
 
-signal shift_reg : std_logic_vector(39 downto 0) := (others => '0');
+type state_type is (idle, shift, full);
+signal current_state, next_state : state_type := full;
+signal shift_reg : std_logic_vector(0 to 38) := (others => '0');
+signal shift_count : integer := 0;
+signal tc : std_logic := '0';
+signal shift_enable : std_logic := '0';
+signal load_enable : std_logic := '0';
 begin
+
+
+state_update : process(clk_port)
+begin
+if rising_edge(clk_port) then
+    current_state <= next_state;
+end if;
+end process;
+
+next_state_logic : process(clk_port)
+begin
+    case current_state is
+        when idle =>
+            if miso_port = '0' then
+                next_state <= shift;
+            end if;
+        when shift =>
+            if tc = '1' then
+                next_state <= full;
+            end if;
+         when full =>
+            if reset_port = '1' then
+                next_state <= idle;
+            end if;
+     end case;
+end process;
+
+output_logic : process(current_state)
+begin
+    case current_state is
+        when idle =>
+            full_port <= '0';
+            shift_enable <= '0';
+            load_enable <= '0';
+        when shift =>
+            full_port <= '0';
+            shift_enable <= '1';
+            load_enable <= '0';
+        when full =>
+            full_port <= '1';
+            shift_enable <= '0';
+            load_enable <= '1';
+     end case;
+end process;
+
+shift_timer : process(clk_port)
+begin
+    if rising_edge(clk_port) then
+        if shift_enable = '1' then
+            shift_count <= shift_count + 1;
+            
+            if tc = '1' then
+                shift_count <= 0;
+            end if;
+         end if;
+     end if;
+end process;
+
+tc <= '1' when shift_count = 39 -1 else '0';
+
 
 
 shift_register: process(clk_port)
 begin
-    if falling_edge(clk_port) then
-        if shift_en_port = '1' then
+    if rising_edge(clk_port) then
+        if shift_enable = '1' then
         
-            shift_reg <= shift_reg(38 downto 0) & miso_port;
+            shift_reg <= shift_reg(1 to 38) & miso_port;
         end if;
         
-        if load_en_port = '1' then
-            data_port <= shift_reg;
+        if load_enable = '1' then
+            data_port <= '0' & shift_reg;
         end if;
     end if;
 end process;
