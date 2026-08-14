@@ -68,17 +68,17 @@ set_property PACKAGE_PIN W5 [get_ports clk_ext_port]
 ## LED_ports
 ##====================================================================
 ## LED 0 (RIGHT MOST LED)
-#set_property PACKAGE_PIN U16 [get_ports {LED_ext_port[0]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {LED_ext_port[0]}]
+set_property PACKAGE_PIN U16 [get_ports {led_ext_port}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {led_ext_port}]
 ## LED 1
-#set_property PACKAGE_PIN E19 [get_ports {LED_ext_port[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {LED_ext_port[1]}]
+set_property PACKAGE_PIN E19 [get_ports {led1}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {led1}]
 ## LED 2
-#set_property PACKAGE_PIN U19 [get_ports {LED_ext_port[2]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {LED_ext_port[2]}]
+set_property PACKAGE_PIN U19 [get_ports {led2}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {led2}]
 ## LED 3
-#set_property PACKAGE_PIN V19 [get_ports {LED_ext_port[3]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {LED_ext_port[3]}]
+set_property PACKAGE_PIN V19 [get_ports {led3}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {led3}]
 ## LED 4
 #set_property PACKAGE_PIN W18 [get_ports {LED_ext_port[4]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {LED_ext_port[4]}]
@@ -177,17 +177,17 @@ set_property PACKAGE_PIN W5 [get_ports clk_ext_port]
 ## Pmod Header JA
 ##====================================================================
 ##Sch name = JA1
-set_property PACKAGE_PIN J1 [get_ports {sd_cs_ext_port]					
-	set_property IOSTANDARD LVCMOS33 [get_ports {sd_cs_ext_port]
+##set_property PACKAGE_PIN J1 [get_ports {sd_cs_ext_port}]					
+	##set_property IOSTANDARD LVCMOS33 [get_ports {sd_cs_ext_port}]
 ##Sch name = JA2
-set_property PACKAGE_PIN L2 [get_ports {sd_mosi_ext_port]					
-	#et_property IOSTANDARD LVCMOS33 [get_ports {sd_mosi_ext_port]
+##set_property PACKAGE_PIN L2 [get_ports {sd_mosi_ext_port}]					
+    ##set_property IOSTANDARD LVCMOS33 [get_ports {sd_mosi_ext_port}]
 ##Sch name = JA3
-set_property PACKAGE_PIN J2 [get_ports {sd_miso_ext_port]					
-	set_property IOSTANDARD LVCMOS33 [get_ports {sd_miso_ext_port]
+##set_property PACKAGE_PIN J2 [get_ports {sd_miso_ext_port}]					
+	##set_property IOSTANDARD LVCMOS33 [get_ports {sd_miso_ext_port}]
 ##Sch name = JA4
-set_property PACKAGE_PIN G2 [get_ports {clk_ext_port]					
-	set_property IOSTANDARD LVCMOS33 [get_ports {clk_ext_port]
+##set_property PACKAGE_PIN G2 [get_ports {clk_ext_port}]					
+	##set_property IOSTANDARD LVCMOS33 [get_ports {clk_ext_port}]
 ##Sch name = JA7
 #set_property PACKAGE_PIN H1 [get_ports {JA_ext_port[4]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JA_ext_port[4]}]
@@ -205,18 +205,17 @@ set_property PACKAGE_PIN G2 [get_ports {clk_ext_port]
 ##====================================================================
 ## Pmod Header JB
 ##====================================================================
-##Sch name = JB1
-#set_property PACKAGE_PIN A14 [get_ports {JB_ext_port[0]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[0]}]
-##Sch name = JB2
-#set_property PACKAGE_PIN A16 [get_ports {JB_ext_port[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[1]}]
-##Sch name = JB3
-#set_property PACKAGE_PIN B15 [get_ports {JB_ext_port[2]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[2]}]
-##Sch name = JB4
-#set_property PACKAGE_PIN B16 [get_ports {JB_ext_port[3]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[3]}]
+set_property PACKAGE_PIN A14 [get_ports {sd_cs_ext_port}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {sd_cs_ext_port}]
+##Sch name = JA2
+set_property PACKAGE_PIN A16 [get_ports {sd_mosi_ext_port}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {sd_mosi_ext_port}]
+##Sch name = JA3
+set_property PACKAGE_PIN B15 [get_ports {sd_miso_ext_port}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {sd_miso_ext_port}]
+##Sch name = JA4
+set_property PACKAGE_PIN B16 [get_ports {sd_sck_ext_port}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {sd_sck_ext_port}]
 ##Sch name = JB7
 #set_property PACKAGE_PIN A15 [get_ports {JB_ext_port[4]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[4]}]

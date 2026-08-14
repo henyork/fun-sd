@@ -62,8 +62,9 @@ if rising_edge(clk_port) then
 end if;
 end process;
 
-next_state_logic : process(clk_port)
+next_state_logic : process(start_port, tc)
 begin
+next_state <= current_state;
     case current_state is
         when idle =>
             if start_port = '1' then
@@ -78,6 +79,7 @@ end process;
 
 output_logic : process(current_state)
 begin
+
     case current_state is
         when idle =>
             idle_port <= '1';

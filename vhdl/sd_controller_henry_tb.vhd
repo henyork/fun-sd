@@ -84,7 +84,13 @@ end process;
 --Your design is working properly if you recover abc in your adc_data register.
 stim_proc: process
 begin
-    wait for clk_period * 200;
+    miso <= '1';
+    wait for clk_period * 20000;
+    miso <= '0';
+    wait for clk_period * 700;
+    miso <= '1';
+    wait for clk_period * 100;
+
 
 end process;
 END;

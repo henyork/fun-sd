@@ -35,7 +35,7 @@ entity sd_receiver is
 Port (
     clk_port : in std_logic;
     miso_port : in std_logic;
-    data_port : out std_logic_vector(39 downto 0);
+    data_port : out std_logic_vector(0 to 39);
     reset_port : in std_logic;
     full_port : out std_logic
 
@@ -63,8 +63,9 @@ if rising_edge(clk_port) then
 end if;
 end process;
 
-next_state_logic : process(clk_port)
+next_state_logic : process(miso_port, reset_port, tc)
 begin
+next_state <= current_state;
     case current_state is
         when idle =>
             if miso_port = '0' then
@@ -112,7 +113,7 @@ begin
      end if;
 end process;
 
-tc <= '1' when shift_count = 39 -1 else '0';
+tc <= '1' when shift_count > 37 else '0';
 
 
 

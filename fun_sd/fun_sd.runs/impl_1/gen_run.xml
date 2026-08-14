@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1786678443">
+  <File Type="PA-TCL" Name="fun_sd_shell.tcl"/>
+  <File Type="REPORTS-TCL" Name="fun_sd_shell_reports.tcl"/>
+  <File Type="INIT-TIMING" Name="fun_sd_shell_timing_summary_init.rpt"/>
+  <File Type="OPT-DCP" Name="fun_sd_shell_opt.dcp"/>
+  <File Type="OPT-DRC" Name="fun_sd_shell_drc_opted.rpt"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="fun_sd_shell_methodology_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="fun_sd_shell.hwdef"/>
+  <File Type="OPT-TIMING" Name="fun_sd_shell_timing_summary_opted.rpt"/>
+  <File Type="OPT-RQA-PB" Name="fun_sd_shell_rqa_opted.pb"/>
+  <File Type="PWROPT-DCP" Name="fun_sd_shell_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="fun_sd_shell_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="fun_sd_shell_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="fun_sd_shell_placed.dcp"/>
+  <File Type="PLACE-IO" Name="fun_sd_shell_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="fun_sd_shell_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="fun_sd_shell_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="fun_sd_shell_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="fun_sd_shell_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="fun_sd_shell_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="fun_sd_shell_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-TIMING" Name="fun_sd_shell_timing_summary_placed.rpt"/>
+  <File Type="PLACE-RQA-PB" Name="fun_sd_shell_rqa_placed.pb"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="fun_sd_shell_postplace_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="fun_sd_shell_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="fun_sd_shell_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="fun_sd_shell_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-TIMING" Name="fun_sd_shell_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="fun_sd_shell_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="fun_sd_shell_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="fun_sd_shell_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="fun_sd_shell_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="fun_sd_shell_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="fun_sd_shell_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="fun_sd_shell_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="fun_sd_shell_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="fun_sd_shell_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-PWR" Name="fun_sd_shell_power_routed.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="fun_sd_shell_power_summary_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="fun_sd_shell_power_routed.rpx"/>
+  <File Type="ROUTE-STATUS" Name="fun_sd_shell_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="fun_sd_shell_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="fun_sd_shell_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="fun_sd_shell_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="fun_sd_shell_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="fun_sd_shell_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="fun_sd_shell_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="fun_sd_shell_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="fun_sd_shell_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="fun_sd_shell_bus_skew_routed.rpx"/>
+  <File Type="ROUTE-RQS-PB" Name="fun_sd_shell_rqs_routed.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="fun_sd_shell_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="fun_sd_shell_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="fun_sd_shell_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="fun_sd_shell_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="fun_sd_shell_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="fun_sd_shell_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="fun_sd_shell_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="fun_sd_shell_bus_skew_postroute_physopted.rpx"/>
+  <File Type="BG-BIT" Name="fun_sd_shell.bit"/>
+  <File Type="BG-BIN" Name="fun_sd_shell.bin"/>
+  <File Type="BITSTR-MSK" Name="fun_sd_shell.msk"/>
+  <File Type="BITSTR-RBT" Name="fun_sd_shell.rbt"/>
+  <File Type="BITSTR-NKY" Name="fun_sd_shell.nky"/>
+  <File Type="BITSTR-BMM" Name="fun_sd_shell_bd.bmm"/>
+  <File Type="BITSTR-MMI" Name="fun_sd_shell.mmi"/>
+  <File Type="PDI-FILE" Name="fun_sd_shell.pdi"/>
+  <File Type="BOOT-PDI-FILE" Name="fun_sd_shell_boot.pdi"/>
+  <File Type="PL-PDI-FILE" Name="fun_sd_shell_pld.pdi"/>
+  <File Type="RCFI_FILE" Name="fun_sd_shell.rcfi"/>
+  <File Type="CFI_FILE" Name="fun_sd_shell.cfi"/>
+  <File Type="RNPI_FILE" Name="fun_sd_shell.rnpi"/>
+  <File Type="NPI_FILE" Name="fun_sd_shell.npi"/>
+  <File Type="RBD_FILE" Name="fun_sd_shell.rbd"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="fun_sd_shell.ltx"/>
+  <File Type="BITSTR-SYSDEF" Name="fun_sd_shell.sysdef"/>
+  <File Type="BG-BGN" Name="fun_sd_shell.bgn"/>
+  <File Type="BG-DRC" Name="fun_sd_shell.drc"/>
+  <File Type="RDI-RDI" Name="fun_sd_shell.vdi"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="ROUTE-RQS" Name="fun_sd_shell_routed.rqs"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS" Name="fun_sd_shell_postroute_physopted.rqs"/>
+  <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../vhdl/SPI_SD_controller.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../vhdl/sd_receiever.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../vhdl/sd_transmitter.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../vhdl/system_clock_generator.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../vhdl/fun_sd_shell.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="fun_sd_shell"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PPRDIR/../vhdl/ES31_CS56_Constraints_Template.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/fun_sd_shell.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="UsedInSteps" Val="synth_1_copy_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>

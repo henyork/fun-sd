@@ -38,7 +38,10 @@ entity fun_sd_shell is
         sd_sck_ext_port : out std_logic;
         sd_mosi_ext_port : out std_logic;
         sd_miso_ext_port : in std_logic;
-        led_ext_port : out std_logic
+        led_ext_port : out std_logic;
+        led1 : out std_logic;
+        led2 : out std_logic;
+        led3 : out std_logic
      );
 end fun_sd_shell;
 
@@ -63,7 +66,10 @@ component SPI_SD_controller is
         start_en    :  out std_logic;
         reset       : out  std_logic;
         LED_EN      : out std_logic;
-        command :   out std_logic_vector(0 to 47)
+        command :   out std_logic_vector(0 to 47);
+        led1 : out std_logic;
+        led2 : out std_logic;
+        led3 : out std_logic
  );
 end component;
 
@@ -71,7 +77,7 @@ component sd_receiver is
     Port (                                              
     clk_port : in std_logic;                            
     miso_port : in std_logic;                           
-    data_port : out std_logic_vector(39 downto 0);      
+    data_port : out std_logic_vector(0 to 39);      
     full_port : out std_logic;                          
     reset_port : in std_logic                           
                                          
@@ -108,12 +114,15 @@ port map(
     start_en => start,
     reset => reset,
     LED_EN => led_ext_port,
-    command => transmitter_data
+    command => transmitter_data,
+    led1 => led1,
+    led2 => led2,
+    led3 => led3
 );
 
 clock_gen : system_clock_generator 
 generic map(
-    clock_divider_ratio => 10)
+    clock_divider_ratio => 100)
 port map(
     input_clk_port => clk_ext_port,
     system_clk_port => system_clk,
