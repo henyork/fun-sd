@@ -52,7 +52,10 @@ end SPI_SD_controller;
 architecture Behavioral of SPI_SD_controller is
 
 --states here
-type state is (prep, load_CMD0, start_shift,wait_idle, reset_receiver, wait_full, check_read, works, failed);
+type state is (prep, load_CMD0, load_CMD55, loadCMD41, check_CMD0, check_CMD55, check_CMD41,  -- command specific states
+start_shift, wait_idle, reset_receiver, wait_full, check_read, works, failed); -- generic states
+
+
 signal currentstate, nextstate: state := prep;
 
 --signals here
