@@ -36,7 +36,9 @@ entity SPI_SD_controller is
         receiver_reg   : in std_logic_vector(0 to 39);
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
-  
+        full_data_rec : in std_logic;
+        reset_data_rec_port : in std_logic;
+        data_reg : in std_logic_vector(0 to 3839);
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
@@ -52,7 +54,7 @@ end SPI_SD_controller;
 architecture Behavioral of SPI_SD_controller is
 
 --states here
-type state is (prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, load_CMD16, check_CMD0, check_CMD8, check_CMD55, check_CMD41, check_CMD16, delay_CMD55, initialized, -- command specific states
+type state is (prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, load_CMD16, check_CMD0, check_CMD8, check_CMD55, check_CMD41, check_CMD16, delay_CMD55, initialized, load_CMD17, check_CMD17, reset_data_rec, wait_data_rec_full, check_data,-- command specific states
 start_shift, wait_idle, reset_receiver, wait_full, check_read, works, failed); -- generic states
 
 
@@ -75,6 +77,8 @@ signal stored_command : std_logic_vector (0 to 47) := command_CMD0; --stores the
 signal prep_tc : integer := 0;
 signal wait_full_tc : integer := 0;
 signal wait_cmd55_tc : integer := 0;
+
+
 
 begin
  
@@ -104,6 +108,8 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
             when load_CMD41 =>
                 nextstate <= start_shift;
             when load_CMD16 =>
+                nextstate <= start_shift;
+            when load_CMD17 =>
                 nextstate <= start_shift;
             when start_shift =>
                 nextstate <= wait_idle;
@@ -165,7 +171,26 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                 else
                     nextstate <= load_CMD16;
                 end if;
-           
+            when check_CMD17 =>
+                if receiver_reg(0 to 7) = "00000000" then
+                    nextstate <= reset_data_rec;
+                else
+                    nextstate <= load_CMD17;
+                end if;
+           when check_data =>
+                if data_reg = (0 to 3839 => '0') then
+                    nextstate <= initialized;
+                else
+                    nextstate <= load_CMD17;
+                end if;
+           when reset_data_rec => 
+                nextstate <= wait_data_rec_full;
+            when wait_data_rec_full =>
+                if full_data_rec = '1' then
+                    nextstate <= check_data;
+                        
+                end if;
+            
             when works =>
                 nextstate <= load_CMD8;
             when failed =>

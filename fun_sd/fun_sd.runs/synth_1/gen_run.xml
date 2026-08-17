@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1787001809" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/fun_sd_shell.dcp">
-  <File Type="PA-TCL" Name="fun_sd_shell.tcl"/>
-  <File Type="REPORTS-TCL" Name="fun_sd_shell_reports.tcl"/>
-  <File Type="RDS-RDS" Name="fun_sd_shell.vds"/>
-  <File Type="RDS-PROPCONSTRS" Name="fun_sd_shell_drc_synth.rpt"/>
-  <File Type="RDS-UTIL" Name="fun_sd_shell_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="fun_sd_shell_utilization_synth.pb"/>
-  <File Type="RDS-DCP" Name="fun_sd_shell.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="fun_sd_shell_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="fun_sd_shell_timing_summary_synth.pb"/>
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1787004850" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/fun_sd_shell.dcp">
+  <File Type="PA-TCL" Name="sd_data_rec.tcl"/>
+  <File Type="REPORTS-TCL" Name="sd_data_rec_reports.tcl"/>
+  <File Type="RDS-RDS" Name="sd_data_rec.vds"/>
+  <File Type="RDS-PROPCONSTRS" Name="sd_data_rec_drc_synth.rpt"/>
+  <File Type="RDS-UTIL" Name="sd_data_rec_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="sd_data_rec_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="sd_data_rec.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="sd_data_rec_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="sd_data_rec_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/../vhdl/VGA_controller_Acker.vhd">
@@ -18,8 +18,10 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/../vhdl/sd_receiever.vhd">
+    <File Path="$PSRCDIR/sources_1/imports/vhdl/sd_receiever.vhd">
       <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../vhdl/sd_receiever.vhd"/>
+        <Attr Name="ImportTime" Val="1787002482"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
@@ -66,9 +68,15 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PPRDIR/../vhdl/sd_data_rec.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="fun_sd_shell"/>
+      <Option Name="TopModule" Val="sd_data_rec"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">

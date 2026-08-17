@@ -52,7 +52,10 @@ signal start : std_logic := '0';
 signal idle : std_logic := '0';
 signal full : std_logic := '0';
 signal reset : std_logic := '0';
+signal full_data_rec : std_logic := '0';
+signal reset_data_rec : std_logic := '0';
 signal receiver_data   : std_logic_vector(0 to 39);
+signal data : std_logic_vector (0 to 3839);
 signal transmitter_data :std_logic_vector(0 to 47);
 signal system_clk : std_logic := '0';
 
@@ -61,10 +64,12 @@ component SPI_SD_controller is
         receiver_reg   : in std_logic_vector(0 to 39);
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
-  
+        full_data_rec : in std_logic;
+        data_reg : in std_logic_vector(0 to 39);
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
+        reset_data_rec_port : out std_logic;
         LED_EN      : out std_logic;
         command_port :   out std_logic_vector(0 to 47);
         led1 : out std_logic;
@@ -93,6 +98,17 @@ component sd_transmitter is
     idle_port : out std_logic
  );
  end component;
+ 
+ component sd_data_rec is                                
+    Port (                                              
+    clk_port : in std_logic;                            
+    miso_port : in std_logic;                           
+    data_port : out std_logic_vector(0 to 3839);      
+    full_port : out std_logic;                          
+    reset_port : in std_logic                           
+                                         
+ );                                                     
+end component;       
 
 component system_clock_generator is
     generic (CLOCK_DIVIDER_RATIO : integer);
@@ -109,10 +125,13 @@ port map(
     clk_port => system_clk,
     receiver_reg => receiver_data,
     idle_trans => idle,
-    full_rec => full,     
+    full_rec => full,
+    full_data_rec => full_data_rec,
+    data_reg => data,
     CS_port => sd_cs_ext_port,
     start_en => start,
     reset => reset,
+    reset_data_rec_port => reset_data_rec,
     LED_EN => led_ext_port,
     command_port => transmitter_data,
     led1 => led1,
@@ -136,6 +155,15 @@ port map(
     data_port => receiver_data,
     reset_port => reset,
     full_port => full
+);
+
+data_rec : sd_data_rec
+port map(
+    miso_port => sd_miso_ext_port,
+    clk_port => system_clk,
+    data_port => data,
+    reset_port => reset_data_rec,
+    full_port => full_data_rec
 );
 
 transmitter : sd_transmitter

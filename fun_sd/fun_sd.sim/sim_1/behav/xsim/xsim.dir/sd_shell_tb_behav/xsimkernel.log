@@ -2,3 +2,6 @@ Running: xsim.dir/sd_shell_tb_behav/xsimk.exe -simmode gui -wdb sd_shell_tb_beha
 Design successfully loaded
 Design Loading Memory Usage: 30624 KB (Peak: 30624 KB)
 Design Loading CPU Usage: 421 ms
+Simulation completed
+Simulation Memory Usage: 39400 KB (Peak: 39400 KB)
+Simulation CPU Usage: 531 ms
