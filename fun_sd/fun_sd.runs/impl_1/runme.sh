@@ -25,7 +25,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.runs/impl_1'
+HD_PWD='O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -43,6 +43,6 @@ EAStep()
 
 # pre-commands:
 /bin/touch .init_design.begin.rst
-EAStep vivado -log vga_controller.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source vga_controller.tcl -notrace
+EAStep vivado -log fun_sd_shell.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source fun_sd_shell.tcl -notrace
 
 

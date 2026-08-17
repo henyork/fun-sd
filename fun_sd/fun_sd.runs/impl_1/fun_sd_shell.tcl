@@ -98,6 +98,8 @@ OPTRACE "impl_1" END { }
 }
 
 set_msg_config -id {Common 17-41} -limit 10000000
+set_msg_config -id {HDL 9-1061} -limit 100000
+set_msg_config -id {HDL 9-1654} -limit 100000
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 
@@ -108,6 +110,7 @@ set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
   set_param chipscope.maxJobs 7
+  set_param synth.incrementalSynthesisCache C:/Users/f007b0d/AppData/Local/Temp/.Xil_f007b0d/Vivado-22548-c011-07/incrSyn
   set_param checkpoint.writeSynthRtdsInDcp 1
   set_param xicom.use_bs_reader 1
   set_param runs.launchOptions { -jobs 14  }

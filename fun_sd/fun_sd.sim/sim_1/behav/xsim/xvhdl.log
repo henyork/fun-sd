@@ -1,9 +1,2 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.srcs/sources_1/new/VGA_controller_Acker.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'vga_controller'
-INFO: [VRFC 10-163] Analyzing VHDL file "O:/ES31_S26/fun_sd/fun-sd/vhdl/sd_receiever_tb.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'sd_receiver_tb'
-INFO: [VRFC 10-163] Analyzing VHDL file "O:/ES31_S26/fun_sd/fun-sd/vhdl/sd_transmitter_tb.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'sd_transmitter_tb'
-INFO: [VRFC 10-163] Analyzing VHDL file "O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.srcs/sim_1/imports/new/VGA_Tb.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'vga_controller'
-WARNING: [VRFC 10-3608] overwriting existing secondary unit 'behavioral' [O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.srcs/sim_1/imports/new/VGA_Tb.vhd:31]
+INFO: [VRFC 10-163] Analyzing VHDL file "O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'SPI_SD_controller'

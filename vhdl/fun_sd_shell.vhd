@@ -66,7 +66,7 @@ component SPI_SD_controller is
         start_en    :  out std_logic;
         reset       : out  std_logic;
         LED_EN      : out std_logic;
-        command :   out std_logic_vector(0 to 47);
+        command_port :   out std_logic_vector(0 to 47);
         led1 : out std_logic;
         led2 : out std_logic;
         led3 : out std_logic
@@ -114,7 +114,7 @@ port map(
     start_en => start,
     reset => reset,
     LED_EN => led_ext_port,
-    command => transmitter_data,
+    command_port => transmitter_data,
     led1 => led1,
     led2 => led2,
     led3 => led3

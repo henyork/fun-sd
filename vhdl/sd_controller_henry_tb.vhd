@@ -84,12 +84,19 @@ end process;
 --Your design is working properly if you recover abc in your adc_data register.
 stim_proc: process
 begin
+
+    --when mosi goes low wait 60 clock cycles then output "000000001"
+    
+    wait until mosi <= '0';
+    
     miso <= '1';
-    wait for clk_period * 20000;
+    wait for clk_period * 6000;
     miso <= '0';
     wait for clk_period * 700;
     miso <= '1';
     wait for clk_period * 100;
+    
+    
 
 
 end process;
