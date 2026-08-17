@@ -25,7 +25,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1'
+HD_PWD='O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.runs/synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -41,4 +41,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log fun_sd_shell.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source fun_sd_shell.tcl
+EAStep vivado -log vga_controller.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source vga_controller.tcl

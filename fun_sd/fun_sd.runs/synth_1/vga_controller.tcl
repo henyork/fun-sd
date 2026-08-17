@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1/fun_sd_shell.tcl"
+  variable script "O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.runs/synth_1/vga_controller.tcl"
   variable category "vivado_synth"
 }
 
@@ -57,32 +57,34 @@ if {$::dispatch::connected} {
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param chipscope.maxJobs 7
-set_param checkpoint.writeSynthRtdsInDcp 1
 set_param xicom.use_bs_reader 1
-set_msg_config -id {Common 17-41} -limit 10000000
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
+set_msg_config -id {HDL 9-1061} -limit 100000
+set_msg_config -id {HDL 9-1654} -limit 100000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-1
 
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir O:/ENGS31/fun-sd/fun_sd/fun_sd.cache/wt [current_project]
-set_property parent.project_path O:/ENGS31/fun-sd/fun_sd/fun_sd.xpr [current_project]
+set_property webtalk.parent_dir O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.cache/wt [current_project]
+set_property parent.project_path O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
 set_property board_part digilentinc.com:basys3:part0:1.2 [current_project]
-set_property ip_output_repo o:/ENGS31/fun-sd/fun_sd/fun_sd.cache/ip [current_project]
+set_property ip_output_repo o:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
-  O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd
-  O:/ENGS31/fun-sd/vhdl/sd_receiever.vhd
-  O:/ENGS31/fun-sd/vhdl/sd_transmitter.vhd
-  O:/ENGS31/fun-sd/vhdl/system_clock_generator.vhd
-  O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd
+  O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.srcs/sources_1/new/VGA_controller_Acker.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/sd_receiever.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/system_clock_generator.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/sd_receiever_tb.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/SPI_SD_controller.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/sd_transmitter.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/fun_sd_shell.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/sd_transmitter_tb.vhd
+  O:/ES31_S26/fun_sd/fun-sd/vhdl/sd_controller_henry_tb.vhd
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -93,16 +95,19 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc O:/ENGS31/fun-sd/vhdl/ES31_CS56_Constraints_Template.xdc
-set_property used_in_implementation false [get_files O:/ENGS31/fun-sd/vhdl/ES31_CS56_Constraints_Template.xdc]
+read_xdc O:/ES31_S26/fun_sd/fun-sd/vhdl/ES31_CS56_Constraints_Template.xdc
+set_property used_in_implementation false [get_files O:/ES31_S26/fun_sd/fun-sd/vhdl/ES31_CS56_Constraints_Template.xdc]
+
+read_xdc O:/ES31_S26/fun_sd/fun-sd/vhdl/Basys3_VGA.xdc
+set_property used_in_implementation false [get_files O:/ES31_S26/fun_sd/fun-sd/vhdl/Basys3_VGA.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 
-read_checkpoint -auto_incremental -incremental O:/ENGS31/fun-sd/fun_sd/fun_sd.srcs/utils_1/imports/synth_1/fun_sd_shell.dcp
+read_checkpoint -auto_incremental -incremental O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.srcs/utils_1/imports/synth_1/fun_sd_shell.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }
-synth_design -top fun_sd_shell -part xc7a35tcpg236-1
+synth_design -top vga_controller -part xc7a35tcpg236-1
 OPTRACE "synth_design" END { }
 if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
  send_msg_id runtcl-6 info "Synthesis results are not added to the cache due to CRITICAL_WARNING"
@@ -112,10 +117,10 @@ if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
 OPTRACE "write_checkpoint" START { CHECKPOINT }
 # disable binary constraint mode for synth run checkpoints
 set_param constraints.enableBinaryConstraints false
-write_checkpoint -force -noxdef fun_sd_shell.dcp
+write_checkpoint -force -noxdef vga_controller.dcp
 OPTRACE "write_checkpoint" END { }
 OPTRACE "synth reports" START { REPORT }
-generate_parallel_reports -reports { "report_utilization -file fun_sd_shell_utilization_synth.rpt -pb fun_sd_shell_utilization_synth.pb"  } 
+generate_parallel_reports -reports { "report_utilization -file vga_controller_utilization_synth.rpt -pb vga_controller_utilization_synth.pb"  } 
 OPTRACE "synth reports" END { }
 file delete __synthesis_is_running__
 close [open __synthesis_is_complete__ w]
