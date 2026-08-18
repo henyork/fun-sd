@@ -41,7 +41,12 @@ entity fun_sd_shell is
         led_ext_port : out std_logic;
         led1 : out std_logic;
         led2 : out std_logic;
-        led3 : out std_logic
+        led3 : out std_logic;
+        led4 : out std_logic;
+        led5 : out std_logic;
+        led6 : out std_logic;
+        reset_data_rec_ext_port : out std_logic
+        
      );
 end fun_sd_shell;
 
@@ -52,24 +57,30 @@ signal start : std_logic := '0';
 signal idle : std_logic := '0';
 signal full : std_logic := '0';
 signal reset : std_logic := '0';
+signal full_data_rec : std_logic := '0';
+signal reset_data_rec : std_logic := '0';
 signal receiver_data   : std_logic_vector(0 to 39);
 signal transmitter_data :std_logic_vector(0 to 47);
 signal system_clk : std_logic := '0';
+signal read_addr : std_logic_vector(8 downto 0) := (others => '0');
+signal write_sel : std_logic := '0';
+signal read_port : std_logic_vector(0 to 5) := (others => '0');
 
 component SPI_SD_controller is
   Port (clk_port    : in std_logic;
         receiver_reg   : in std_logic_vector(0 to 39);
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
-  
+        full_data_rec : in std_logic;
+        
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
+        reset_data_rec_port : out std_logic;
         LED_EN      : out std_logic;
-        command :   out std_logic_vector(0 to 47);
-        led1 : out std_logic;
-        led2 : out std_logic;
-        led3 : out std_logic
+        command_port :   out std_logic_vector(0 to 47);
+        write_sel_port : out std_logic
+        
  );
 end component;
 
@@ -93,6 +104,19 @@ component sd_transmitter is
     idle_port : out std_logic
  );
  end component;
+ 
+ component sd_data_rec is                                
+    Port (                                              
+    clk_port : in std_logic;
+    miso_port : in std_logic;
+    write_sel_port : in std_logic;
+    read_port : out std_logic_vector(0 to 5);
+    reset_port : in std_logic;
+    read_addr_port : in std_logic_vector(8 downto 0);
+    full_port : out std_logic                        
+                                         
+ );                                                     
+end component;       
 
 component system_clock_generator is
     generic (CLOCK_DIVIDER_RATIO : integer);
@@ -104,25 +128,27 @@ end component;
 
 begin
 
+
+
 controller : spi_sd_controller
 port map(
     clk_port => system_clk,
     receiver_reg => receiver_data,
     idle_trans => idle,
-    full_rec => full,     
+    full_rec => full,
+    full_data_rec => full_data_rec,
     CS_port => sd_cs_ext_port,
     start_en => start,
     reset => reset,
+    reset_data_rec_port => reset_data_rec,
     LED_EN => led_ext_port,
-    command => transmitter_data,
-    led1 => led1,
-    led2 => led2,
-    led3 => led3
+    command_port => transmitter_data,
+    write_sel_port => write_sel
 );
 
 clock_gen : system_clock_generator 
 generic map(
-    clock_divider_ratio => 100)
+    clock_divider_ratio => 5)
 port map(
     input_clk_port => clk_ext_port,
     system_clk_port => system_clk,
@@ -138,6 +164,22 @@ port map(
     full_port => full
 );
 
+data_rec : sd_data_rec
+port map(
+    miso_port => sd_miso_ext_port,
+    clk_port => system_clk,
+    read_port(0) => led1,
+    read_port(1) => led2,
+    read_port(2) => led3,
+    read_port(3) => led4,
+    read_port(4) => led5,
+    read_port(5) => led6,
+    read_addr_port => read_addr,
+    write_sel_port => write_sel,
+    reset_port => reset_data_rec,
+    full_port => full_data_rec
+);
+
 transmitter : sd_transmitter
 port map(
     clk_port => system_clk,
@@ -147,5 +189,5 @@ port map(
     idle_port => idle
 
 );
-
+reset_data_rec_ext_port <= reset_data_rec;
 end Behavioral;

@@ -36,15 +36,15 @@ entity SPI_SD_controller is
         receiver_reg   : in std_logic_vector(0 to 39);
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
-  
+        full_data_rec : in std_logic;
+        reset_data_rec_port : out std_logic;
+        
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
         LED_EN      : out std_logic;
-        command :   out std_logic_vector(0 to 47);
-        led1 : out std_logic;
-        led2 : out std_logic;
-        led3 : out std_logic
+        command_port :   out std_logic_vector(0 to 47);
+        write_sel_port : out std_logic
  );
 end SPI_SD_controller;
 
@@ -52,14 +52,31 @@ end SPI_SD_controller;
 architecture Behavioral of SPI_SD_controller is
 
 --states here
-type state is (prep, load_CMD0, start_shift,wait_idle, reset_receiver, wait_full, check_read, works, failed);
+type state is (prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, load_CMD16, check_CMD0, check_CMD8, check_CMD55, check_CMD41, check_CMD16, delay_CMD55, initialized, load_CMD17, check_CMD17, reset_data_rec, wait_data_rec_full, check_data,-- command specific states
+start_shift, wait_idle, reset_receiver, wait_full, check_read, works, failed); -- generic states
+
+
 signal currentstate, nextstate: state := prep;
 
 --signals here
 
-signal command_CMD0 : std_logic_vector (0 to 47) := "01" & (2 to 7 => '0') & (8 to 39 => '0') & x"95";
+constant command_CMD0 : std_logic_vector (0 to 47) := "01" & (2 to 7 => '0') & (8 to 39 => '0') & x"95";
+constant command_CMD8 : std_logic_vector (0 to 47) := "01" & "001000" & x"000001AA" & x"87";
+constant command_CMD55  : std_logic_vector (0 to 47) := "01" & "110111" & (8 to 39 => '0') & x"01"; --CHECKSUMS not changed
+constant command_CMD41  : std_logic_vector (0 to 47) := "01" & "101001" & "01" & (10 to 39 => '0') & x"01";
+constant command_CMD16 : std_logic_vector (0 to 47) := "01"  & "010000" & x"000001E0"  & x"01";
+
+constant command_CMD17_start : std_logic_vector (0 to 7) := "01"  & "010001"; 
+constant command_CMD17_csum : std_logic_vector (0 to 7) := x"01";
+signal address : std_logic_vector (31 downto 0) := (31 downto 1 => '0') & '0';
+
+signal command : std_logic_vector (0 to 47) := command_CMD0; -- set in load command state
+signal stored_command : std_logic_vector (0 to 47) := command_CMD0; --stores the command in a flip flop
 signal prep_tc : integer := 0;
 signal wait_full_tc : integer := 0;
+signal wait_cmd55_tc : integer := 0;
+
+signal write_sel : std_logic := '0';
 
 begin
  
@@ -70,7 +87,7 @@ stateUpdate: process(clk_port) begin
     end if;
 end process stateUpdate;
 
-next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc) begin 
+next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc, wait_cmd55_tc, full_data_rec) begin 
     
  nextstate <= currentstate;
         case(currentstate) is 
@@ -81,6 +98,16 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                     nextstate <= prep;
                 end if;
             when load_CMD0 =>
+                nextstate <= start_shift;
+            when load_CMD8 =>
+                nextstate <= start_shift;
+            when load_CMD55 =>
+                nextstate <= start_shift;
+            when load_CMD41 =>
+                nextstate <= start_shift;
+            when load_CMD16 =>
+                nextstate <= start_shift;
+            when load_CMD17 =>
                 nextstate <= start_shift;
             when start_shift =>
                 nextstate <= wait_idle;
@@ -94,68 +121,121 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                 nextstate <= wait_full;
             when wait_full => 
                 if full_rec = '1' then 
-                    nextstate <= check_read;
+                    if stored_command = command_CMD0 then
+                        nextstate <= check_CMD0;
+                    elsif stored_command = command_CMD8 then
+                        nextstate <= check_CMD8;
+                    elsif stored_command = command_CMD55 then
+                        nextstate <= check_CMD55;
+                    elsif stored_command = command_CMD41 then
+                        nextstate <= check_CMD41;
+                    elsif stored_command = command_CMD16 then
+                        nextstate <= check_CMD16;
+                    elsif stored_command(0 to 7) = command_CMD17_start then
+                        nextstate <= check_CMD17;
+                    else 
+                        nextstate <= check_CMD0;
+                    end if;
                 elsif wait_full_tc > 100 then
                     nextstate <= prep;
                 end if;
-            when check_read =>
+            when check_CMD0 =>
                 if receiver_reg(0 to 7) = "00000001" then
                     nextstate <= works;
                 else
                     nextstate <= failed;
                 end if;
+            when check_CMD8 =>
+                if receiver_reg(0 to 7) = "00000001" then
+                    nextstate <= load_CMD55;
+                else
+                    nextstate <= prep;
+                end if;
+            when check_CMD55 =>
+                if receiver_reg(0 to 7) = "00000001" then
+                    nextstate <= load_CMD41;
+                else
+                    nextstate <= prep;
+                end if;
+            when check_CMD41 =>
+                if receiver_reg(0 to 7) = "00000000" then
+                    nextstate <= load_CMD16;
+                elsif receiver_reg(0 to 7) = "00000001" then
+                    nextstate <= delay_CMD55;
+                else
+                    nextstate <= prep;
+                end if;
+            when check_CMD16 =>
+                if receiver_reg(0 to 7) = "00000000" then
+                    nextstate <= load_CMD17;
+                else
+                    nextstate <= load_CMD16;
+                end if;
+            when check_CMD17 =>
+                if receiver_reg(0 to 7) = "00000000" then
+                    nextstate <= reset_data_rec;
+                else
+                    nextstate <= load_CMD17;
+                end if;
+           when check_data =>
+                    nextstate <= load_CMD17;
+                    
+                    -- toggling write sel is handled in a separate flip flop to avoid latches
+            when reset_data_rec => 
+                nextstate <= wait_data_rec_full;
+            when wait_data_rec_full =>
+                if full_data_rec = '1' then
+                    nextstate <= check_data;
+                        
+                end if;
+            
             when works =>
-                nextstate <= prep;
+                nextstate <= load_CMD8;
             when failed =>
                 nextstate <= prep;
+            when delay_CMD55 =>
+                if wait_cmd55_tc > 100 then
+                    nextstate <= load_CMD55;
+                end if;
+            when initialized =>
+                null;
+                --nextstate <= prep;
             when others =>
                 null;
         end case;
         
 end process next_state_logic;
 
-
+write_sel_port <= write_sel;
 
 output_logic : process(currentstate) begin 
 CS_port    <= '0';
 start_en   <= '0';
 reset      <= '0';
---LED_EN     <= '0';
+LED_EN     <= '0';
+reset_data_rec_port <= '0';
 command <= (others => '0');
+command_port <= (others => '0');
 
        case currentstate is 
-            when prep =>
-                led1 <= '1';
-                led2 <= '0';
-                led3 <= '0';
-            when wait_idle =>
-                led1 <= '0';
-                led2 <= '1';
-                led3 <= '0';
-            when wait_full =>
-                led1 <= '0';
-                led2 <= '0';
-                led3 <= '1';
-            when load_CMD0 =>
-                command <= command_CMD0;
-            when check_read =>
-                led1 <= '0';
-                led2 <= '0';
-                led3 <= '0';
+
+           
             when start_shift =>
-                command <= command_CMD0;
+                command_port <= stored_command;
+                
                 reset <= '0';
                 start_en <= '1';
             when reset_receiver =>
                 reset <= '1';
-            when works =>
+            when wait_data_rec_full =>
                 LED_EN <= '1';
-                
-            when failed =>
-                LED_EN <= '0';
-                
+            when reset_data_rec =>
+                reset_data_rec_port <= '1';
+            
+            
+            
             when others =>
-                reset <= '0';
+                null;
                 --do nothing
         end case;
 end process output_logic;
@@ -173,7 +253,39 @@ counter : process(clk_port) begin
         else
             wait_full_tc <=0;
         end if;
+        
+        if currentstate = delay_CMD55 then
+            wait_cmd55_tc <= wait_cmd55_tc +1;
+        else    
+            wait_cmd55_tc <= 0;
+        end if;
+        
+        
+        
     end if;
  end process;
+ 
+command_flipflop : process(clk_port) begin -- store the current command during the load state
+    if falling_edge(clk_port) then
+        if currentstate = load_cmd0 then
+            stored_command <= command_CMD0;
+        elsif currentstate = load_cmd8 then
+            stored_command <= command_CMD8;
+        elsif currentstate = load_cmd55 then
+            stored_command <= command_CMD55;
+        elsif currentstate = load_cmd41 then
+            stored_command <= command_CMD41;
+        elsif currentstate = load_cmd16 then
+            stored_command <= command_CMD16;
+        elsif currentstate = load_cmd17 then
+            stored_command <= command_CMD17_start & address & command_CMD17_csum;
+        end if;
+        
+        
+        if currentstate = check_data then
+            write_sel <= not write_sel;
+        end if;
+    end if;
+end process;
 
 end Behavioral;
