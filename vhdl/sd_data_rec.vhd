@@ -21,6 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -35,9 +36,12 @@ entity sd_data_rec is
 Port (
     clk_port : in std_logic;
     miso_port : in std_logic;
-    data_port : out std_logic_vector(0 to 3839);
+    write_sel_port : in std_logic;
+    read_port : out std_logic_vector(0 to 5);
     reset_port : in std_logic;
+    read_addr_port : in std_logic_vector(8 downto 0);
     full_port : out std_logic
+    
 
  );
 end sd_data_rec;
@@ -48,8 +52,11 @@ architecture Behavioral of sd_data_rec is
 
 type state_type is (idle, shift, full);
 signal current_state, next_state : state_type := full;
-signal shift_reg : std_logic_vector(0 to 3839) := (others => '0');
+signal reg0 : std_logic_vector(0 to 4111) := "10100101" & (8 to 4111 => '0');
+signal reg1 : std_logic_vector(0 to 4111) := "00011000" & (8 to 4111 => '0');
+
 signal shift_count : integer := 0;
+signal read_addr : integer := 0;
 signal tc : std_logic := '0';
 signal shift_enable : std_logic := '0';
 signal load_enable : std_logic := '0';
@@ -113,7 +120,7 @@ begin
      end if;
 end process;
 
-tc <= '1' when shift_count > 3838;
+tc <= '1' when shift_count > 4110 else '0'; -- should be 3838
 
 
 
@@ -121,14 +128,30 @@ shift_register: process(clk_port)
 begin
     if rising_edge(clk_port) then
         if shift_enable = '1' then
-        
-            shift_reg <= shift_reg(1 to 3839) & miso_port;
+            if write_sel_port = '0' then
+                reg0 <= reg0(1 to 4111) & miso_port;
+            elsif write_sel_port = '1' then
+                reg1 <= reg1(1 to 4111) & miso_port;
+            end if;
         end if;
         
-        if load_enable = '1' then
-            data_port <= shift_reg;
-        end if;
     end if;
 end process;
+read_addr <= to_integer(unsigned(read_addr_port));
+shift_register_write: process(clk_port)
+begin
+    if falling_edge(clk_port) then
+        
+        
+        if write_sel_port = '0' then
+            read_port <= reg1(read_addr*6 to (read_addr*6)+5);
+
+        elsif write_sel_port = '1' then
+            read_port <= reg0(read_addr*6 to (read_addr*6)+5);
+        end if;
+        
+    end if;
+end process;
+
 
 end Behavioral;

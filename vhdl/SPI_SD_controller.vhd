@@ -37,16 +37,14 @@ entity SPI_SD_controller is
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
         full_data_rec : in std_logic;
-        reset_data_rec_port : in std_logic;
-        data_reg : in std_logic_vector(0 to 3839);
+        reset_data_rec_port : out std_logic;
+        
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
         LED_EN      : out std_logic;
         command_port :   out std_logic_vector(0 to 47);
-        led1 : out std_logic;
-        led2 : out std_logic;
-        led3 : out std_logic
+        write_sel_port : out std_logic
  );
 end SPI_SD_controller;
 
@@ -69,8 +67,8 @@ constant command_CMD41  : std_logic_vector (0 to 47) := "01" & "101001" & "01" &
 constant command_CMD16 : std_logic_vector (0 to 47) := "01"  & "010000" & x"000001E0"  & x"01";
 
 constant command_CMD17_start : std_logic_vector (0 to 7) := "01"  & "010001"; 
-constant command_CMD17_csum : std_logic_vector (0 to 1) := "01";
-signal address : std_logic_vector (31 downto 0) := (31 downto 1 => '0') & '1';
+constant command_CMD17_csum : std_logic_vector (0 to 7) := x"01";
+signal address : std_logic_vector (31 downto 0) := (31 downto 1 => '0') & '0';
 
 signal command : std_logic_vector (0 to 47) := command_CMD0; -- set in load command state
 signal stored_command : std_logic_vector (0 to 47) := command_CMD0; --stores the command in a flip flop
@@ -78,7 +76,7 @@ signal prep_tc : integer := 0;
 signal wait_full_tc : integer := 0;
 signal wait_cmd55_tc : integer := 0;
 
-
+signal write_sel : std_logic := '0';
 
 begin
  
@@ -89,7 +87,7 @@ stateUpdate: process(clk_port) begin
     end if;
 end process stateUpdate;
 
-next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc, wait_cmd55_tc) begin 
+next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc, wait_cmd55_tc, full_data_rec) begin 
     
  nextstate <= currentstate;
         case(currentstate) is 
@@ -133,6 +131,8 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                         nextstate <= check_CMD41;
                     elsif stored_command = command_CMD16 then
                         nextstate <= check_CMD16;
+                    elsif stored_command(0 to 7) = command_CMD17_start then
+                        nextstate <= check_CMD17;
                     else 
                         nextstate <= check_CMD0;
                     end if;
@@ -167,7 +167,7 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                 end if;
             when check_CMD16 =>
                 if receiver_reg(0 to 7) = "00000000" then
-                    nextstate <= initialized;
+                    nextstate <= load_CMD17;
                 else
                     nextstate <= load_CMD16;
                 end if;
@@ -178,12 +178,10 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                     nextstate <= load_CMD17;
                 end if;
            when check_data =>
-                if data_reg = (0 to 3839 => '0') then
-                    nextstate <= initialized;
-                else
                     nextstate <= load_CMD17;
-                end if;
-           when reset_data_rec => 
+                    
+                    -- toggling write sel is handled in a separate flip flop to avoid latches
+            when reset_data_rec => 
                 nextstate <= wait_data_rec_full;
             when wait_data_rec_full =>
                 if full_data_rec = '1' then
@@ -208,16 +206,14 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
         
 end process next_state_logic;
 
-
+write_sel_port <= write_sel;
 
 output_logic : process(currentstate) begin 
 CS_port    <= '0';
 start_en   <= '0';
 reset      <= '0';
 LED_EN     <= '0';
-led1 <= '0';
-led2 <= '0';
-led3 <= '0';
+reset_data_rec_port <= '0';
 command <= (others => '0');
 command_port <= (others => '0');
 
@@ -231,14 +227,10 @@ command_port <= (others => '0');
                 start_en <= '1';
             when reset_receiver =>
                 reset <= '1';
-            when initialized =>
+            when wait_data_rec_full =>
                 LED_EN <= '1';
-            when delay_CMD55 =>
-                led1 <= '1';
-            when wait_full =>
-                led2 <= '1';
-            when prep =>
-                led3 <= '1';
+            when reset_data_rec =>
+                reset_data_rec_port <= '1';
             
             
             
@@ -285,6 +277,13 @@ command_flipflop : process(clk_port) begin -- store the current command during t
             stored_command <= command_CMD41;
         elsif currentstate = load_cmd16 then
             stored_command <= command_CMD16;
+        elsif currentstate = load_cmd17 then
+            stored_command <= command_CMD17_start & address & command_CMD17_csum;
+        end if;
+        
+        
+        if currentstate = check_data then
+            write_sel <= not write_sel;
         end if;
     end if;
 end process;

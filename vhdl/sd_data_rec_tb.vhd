@@ -31,11 +31,13 @@ end component;
 
 component sd_data_rec is
     Port (
-    clk_port : in std_logic;
+     clk_port : in std_logic;
     miso_port : in std_logic;
-    data_port : out std_logic_vector(0 to 3839);
-    full_port : out std_logic;
-    reset_port : in std_logic
+    write_sel_port : in std_logic;
+    read_port : out std_logic_vector(0 to 5);
+    reset_port : in std_logic;
+    read_addr_port : in std_logic_vector(8 downto 0);
+    full_port : out std_logic
 
  );
 end component;
@@ -50,7 +52,9 @@ signal spi_sclk         : std_logic := '0' ;
 signal spi_cs           : std_logic := '1';
 signal full : std_logic := '0';
 signal reset : std_logic := '0';
-signal data : std_logic_vector(0 to 3839) := (others => '0');
+signal data : std_logic_vector(0 to 5) := (others => '0');
+signal read_addr : std_logic_vector(8 downto 0) := (others => '0');
+signal write_sel : std_logic := '0'; 
 -- Clock period definitions
 constant clk_period     : time := 10ns;		-- 100 MHz clock
 
@@ -67,9 +71,12 @@ uut: sd_data_rec
 port map(
 	clk_port    => spi_sclk,
 	miso_port 	=> miso,
-	data_port   => data,
+	read_port   => data,
 	reset_port  => reset,
-	full_port => full);
+	full_port => full,
+	read_addr_port => read_addr,
+	write_sel_port => write_sel
+	);
 
 clocking: system_clock_generator 
 generic map(
@@ -105,6 +112,15 @@ end process;
 --Your design is working properly if you recover abc in your adc_data register.
 stim_proc: process
 begin
+    wait for clk_period*500;
+    write_sel <= '1';
+    wait for clk_period *500;
+    read_addr <= "000000001";
+    wait for clk_period * 500;
+    write_sel <= '0';
+    wait for clk_period * 500;
+    read_addr <= "000000000";
+    wait for clk_period * 500;
     reset <= '1';
     wait for clk_period*100;
     reset <= '0';
