@@ -36,7 +36,7 @@ component sd_data_rec is
     write_sel_port : in std_logic;
     read_port : out std_logic_vector(0 to 5);
     reset_port : in std_logic;
-    read_addr_port : in std_logic_vector(8 downto 0);
+    read_addr_port : in std_logic_vector(9 downto 0);
     full_port : out std_logic
 
  );
@@ -53,7 +53,7 @@ signal spi_cs           : std_logic := '1';
 signal full : std_logic := '0';
 signal reset : std_logic := '0';
 signal data : std_logic_vector(0 to 5) := (others => '0');
-signal read_addr : std_logic_vector(8 downto 0) := (others => '0');
+signal read_addr : std_logic_vector(9 downto 0) := (others => '0');
 signal write_sel : std_logic := '0'; 
 -- Clock period definitions
 constant clk_period     : time := 10ns;		-- 100 MHz clock

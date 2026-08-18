@@ -65,6 +65,7 @@ signal system_clk : std_logic := '0';
 signal read_addr : std_logic_vector(8 downto 0) := (others => '0');
 signal write_sel : std_logic := '0';
 signal read_port : std_logic_vector(0 to 5) := (others => '0');
+signal reset_addr : std_logic := '0';
 
 component SPI_SD_controller is
   Port (clk_port    : in std_logic;
@@ -72,7 +73,7 @@ component SPI_SD_controller is
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
         full_data_rec : in std_logic;
-        
+        reset_addr_port : in std_logic;
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
@@ -122,6 +123,7 @@ component system_clock_generator is
     generic (CLOCK_DIVIDER_RATIO : integer);
 	port (
         input_clk_port		: in std_logic;
+    
         system_clk_port	    : out std_logic;
 		fwd_clk_port		: out std_logic);
 end component;
@@ -139,6 +141,7 @@ port map(
     full_data_rec => full_data_rec,
     CS_port => sd_cs_ext_port,
     start_en => start,
+    reset_addr_port => reset_addr,
     reset => reset,
     reset_data_rec_port => reset_data_rec,
     LED_EN => led_ext_port,
@@ -148,7 +151,7 @@ port map(
 
 clock_gen : system_clock_generator 
 generic map(
-    clock_divider_ratio => 5)
+    clock_divider_ratio => 4)
 port map(
     input_clk_port => clk_ext_port,
     system_clk_port => system_clk,
@@ -190,4 +193,5 @@ port map(
 
 );
 reset_data_rec_ext_port <= reset_data_rec;
+
 end Behavioral;
