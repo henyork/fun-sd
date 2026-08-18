@@ -25,20 +25,18 @@ entity vga_controller is
     Port (
         clk_sys     : in  std_logic;
         reset       : in  std_logic;
-        pixel_data  : in std_logic_vector(5 downto 0);
-        pixel_address   : in std_logic_vector(9 downto 0);
+        pixel_data  : in std_logic;
+        
+        pixel_address   : out std_logic_vector(11 downto 0);
 
         vgaRed     : out std_logic_vector(1 downto 0);
         vgaGreen    : out std_logic_vector(1 downto 0);
         vgaBlue     : out std_logic_vector(1 downto 0);
-        
-        
-   
 
         Hsync      : out std_logic;
         Vsync      : out std_logic;
         pixel_request   : out std_logic;
-        line_done   : out std_logic
+        frame_done   : out std_logic
     );
 end vga_controller;
 
@@ -58,10 +56,20 @@ ARCHITECTURE Behavioral of vga_controller is
     constant v_sync         : integer := 2;
     constant v_back_porch   : integer := 33;
     constant v_total        : integer := 525;
+    
+    -- image width constants
+    constant image_width : integer := 204;
+    constant image_height : integer := 480;
+    constant image_Xstart : integer := 218;
+    constant image_Xstop  : integer := 421;
+    constant image_Ystart : integer := 0;
+    constant image_Ystop  : integer := 479;
+    
 
    --counters 
     signal h_count : unsigned(9 downto 0) := (others => '0');
     signal v_count : unsigned(9 downto 0) := (others => '0');
+    signal pixel_count : unsigned(9 downto 0) := (others => '0');
 
    --pixel clock
 
@@ -111,6 +119,7 @@ begin
                 else
                     h_count <= h_count + 1;
                 end if;
+                pixel_count <= pixel_count + 1;
             end if;
         end if;
     end process;
@@ -137,38 +146,47 @@ begin
         else
             Vsync <= '1';
         end if;
+            
     end process;
 
 
 --pixel generator 
     process(h_count, v_count)
     begin
-
+    
+        frame_done <= '0';
         vgaRed   <= "00";
         vgaGreen   <= "00";
         vgaBlue   <= "00";
         
         
+        if v_count = v_total - 1 then
+            frame_done <= '1';
+        end if;
         
-        -- during active prjecting 
---vgaRed <= pixel_data(5 downto 4);
---vgaGreen <= pixel_data(3 downto 2);
---vgaBlue <= pixel_data(1 downto 0);
-    --if in active region it will send out color 
-        if (h_count < H_ACTIVE) and (v_count < V_ACTIVE) then
-  
-            if (v_count mod 4) = 0  then  
-                vgaRed   <= "11"; 
-            elsif (v_count mod 4) = 1 then 
-                vgaBlue   <= "11";
-            elsif (v_count mod 4) = 2 then 
-                vgaGreen   <= "11";
-           else
-                vgaRed   <= "00";
-                vgaGreen   <= "00";
-                vgaBlue   <= "00";
-           end if;
+         pixel_address <= std_logic_vector(pixel_count);
 
+
+    --if in active region it will send out color 
+        if (h_count >= image_Xstart) and 
+           (h_count <= image_Xstop) and 
+           (v_count >= image_YStart) and 
+           (v_count <= image_Ystop) then
+        
+        if pixel_data = '1' then 
+             vgaRed   <= "11";
+             vgaGreen   <= "11";
+             vgaBlue   <= "11";
+        else 
+             vgaRed   <= "00";
+             vgaGreen   <= "00";
+             vgaBlue   <= "00";
+        end if;
+                -- during active prjecting for 2 bit color 
+                --vgaRed <= pixel_data(5 downto 4);
+                --vgaGreen <= pixel_data(3 downto 2);
+                --vgaBlue <= pixel_data(1 downto 0);
+         
         end if;
     end process;
 end Behavioral;
