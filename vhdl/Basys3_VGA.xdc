@@ -1,22 +1,10 @@
-## This file is a general .xdc for the Basys3 rev B board for ENGS31/CoSc56
-## To use it in a project:
-## - uncomment the lines corresponding to used pins
-## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
-## - these names should match the external ports (_ext_port) in the entity declaration of your shell/top level
-##====================================================================
-## External_Clock_Port
-##====================================================================
-## This is a 100 MHz external clock
-set_property PACKAGE_PIN W5 [get_ports clk_sys]
-set_property IOSTANDARD LVCMOS33 [get_ports clk_sys]
-create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports clk_sys]
 
 ##====================================================================
 ## Buttons
 ##====================================================================
 ## CENTER BUTTON
-set_property PACKAGE_PIN U18 [get_ports reset]
-set_property IOSTANDARD LVCMOS33 [get_ports reset]
+set_property PACKAGE_PIN U18 [get_ports reset_ext_port]
+set_property IOSTANDARD LVCMOS33 [get_ports reset_ext_port]
 
 ##====================================================================
 ## VGA Connector

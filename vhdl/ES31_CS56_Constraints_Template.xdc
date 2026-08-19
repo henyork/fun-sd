@@ -230,6 +230,10 @@ set_property PACKAGE_PIN A15 [get_ports {reset_data_rec_ext_port}]
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[7]}]
  
 
+
+
+
+
 ##====================================================================
 ## Pmod Header JC
 ##====================================================================

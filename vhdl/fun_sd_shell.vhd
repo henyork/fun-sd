@@ -39,6 +39,12 @@ entity fun_sd_shell is
         sd_mosi_ext_port : out std_logic;
         sd_miso_ext_port : in std_logic;
         led_ext_port : out std_logic;
+        hsync : out std_logic;
+        vsync : out std_logic;
+        vgaRed : out std_logic_vector(0 to 1);
+        vgaGreen : out std_logic_vector(0 to 1);
+        vgaBlue : out std_logic_vector(0 to 1);
+        reset_ext_port : in std_logic; -- this resets the vga controller
         led1 : out std_logic;
         led2 : out std_logic;
         led3 : out std_logic;
@@ -64,8 +70,9 @@ signal transmitter_data :std_logic_vector(0 to 47);
 signal system_clk : std_logic := '0';
 signal read_addr : std_logic_vector(8 downto 0) := (others => '0');
 signal write_sel : std_logic := '0';
-signal read_port : std_logic_vector(0 to 5) := (others => '0');
+signal read_port : std_logic := '0';
 signal reset_addr : std_logic := '0';
+signal register_done : std_logic := '0';
 
 component SPI_SD_controller is
   Port (clk_port    : in std_logic;
@@ -74,6 +81,7 @@ component SPI_SD_controller is
         full_rec        : in std_logic;
         full_data_rec : in std_logic;
         reset_addr_port : in std_logic;
+        register_done_port : in std_logic;
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
@@ -111,11 +119,11 @@ component sd_transmitter is
     clk_port : in std_logic;
     miso_port : in std_logic;
     write_sel_port : in std_logic;
-    read_port : out std_logic_vector(0 to 5);
+    read_port : out std_logic;
     reset_port : in std_logic;
     read_addr_port : in std_logic_vector(8 downto 0);
     full_port : out std_logic                        
-                                         
+                                
  );                                                     
 end component;       
 
@@ -127,6 +135,27 @@ component system_clock_generator is
         system_clk_port	    : out std_logic;
 		fwd_clk_port		: out std_logic);
 end component;
+
+
+component vga_controller is
+    Port (
+        clk_sys     : in  std_logic;
+        reset       : in  std_logic;
+        pixel_data  : in std_logic;
+        
+        pixel_address   : out std_logic_vector(11 downto 0);
+
+        vgaRed     : out std_logic_vector(1 downto 0);
+        vgaGreen    : out std_logic_vector(1 downto 0);
+        vgaBlue     : out std_logic_vector(1 downto 0);
+
+        Hsync      : out std_logic;
+        Vsync      : out std_logic;
+        pixel_request   : out std_logic;
+        frame_done   : out std_logic
+    );
+end component;
+
 
 begin
 
@@ -142,7 +171,9 @@ port map(
     CS_port => sd_cs_ext_port,
     start_en => start,
     reset_addr_port => reset_addr,
-    reset => reset,
+    register_done_port => register_done,
+    
+    reset => reset, -- this is to reset the receiever
     reset_data_rec_port => reset_data_rec,
     LED_EN => led_ext_port,
     command_port => transmitter_data,
@@ -171,12 +202,7 @@ data_rec : sd_data_rec
 port map(
     miso_port => sd_miso_ext_port,
     clk_port => system_clk,
-    read_port(0) => led1,
-    read_port(1) => led2,
-    read_port(2) => led3,
-    read_port(3) => led4,
-    read_port(4) => led5,
-    read_port(5) => led6,
+    read_port => read_port,
     read_addr_port => read_addr,
     write_sel_port => write_sel,
     reset_port => reset_data_rec,
@@ -190,8 +216,26 @@ port map(
     data_port => transmitter_data,
     start_port => start,
     idle_port => idle
+);
+
+vga : vga_controller
+port map(
+    clk_sys => clk_ext_port,
+    reset => reset_ext_port,
+    pixel_data => read_port,
+    pixel_address => read_addr,
+    
+    vgaRed => vgaRed,
+    vgaGreen => vgaGreen,
+    vgaBlue => vgaBlue,
+
+    Hsync => Hsync,
+    Vsync => Vsync,
+    register_done => register_done,
+    frame_done => reset_addr
+
 
 );
-reset_data_rec_ext_port <= reset_data_rec;
+reset_data_rec_ext_port <= reset_data_rec; --this is useful as a scope trigger, so it is output to an ext port
 
 end Behavioral;

@@ -37,7 +37,7 @@ Port (
     clk_port : in std_logic;
     miso_port : in std_logic;
     write_sel_port : in std_logic;
-    read_port : out std_logic_vector(0 to 5);
+    read_port : out std_logic;
     reset_port : in std_logic;
     read_addr_port : in std_logic_vector(8 downto 0);
     full_port : out std_logic

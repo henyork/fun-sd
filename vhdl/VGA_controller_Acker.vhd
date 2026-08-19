@@ -69,7 +69,7 @@ ARCHITECTURE Behavioral of vga_controller is
    --counters 
     signal h_count : unsigned(9 downto 0) := (others => '0');
     signal v_count : unsigned(9 downto 0) := (others => '0');
-    signal pixel_count : unsigned(9 downto 0) := (others => '0');
+    signal pixel_count : unsigned(11 downto 0) := (others => '0');
 
    --pixel clock
 

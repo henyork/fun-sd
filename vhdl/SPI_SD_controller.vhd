@@ -38,7 +38,7 @@ entity SPI_SD_controller is
         full_rec        : in std_logic;
         full_data_rec : in std_logic;
         reset_addr_port : in std_logic;
-        
+        register_done_port : in std_logic;
         reset_data_rec_port : out std_logic;
         
         CS_port     : out std_logic;
@@ -292,6 +292,7 @@ command_flipflop : process(clk_port) begin -- store the current command during t
             write_sel <= not write_sel;
             if reset_addr_port = '1' then
                 write_sel <= '0';
+            end if;
         end if;
     end if;
 end process;
