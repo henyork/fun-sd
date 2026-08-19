@@ -120,7 +120,7 @@ begin
      end if;
 end process;
 
-tc <= '1' when shift_count > 4110 else '0'; -- should be 3838
+tc <= '1' when shift_count > 4110 else '0'; -- should be 4111
 
 
 
@@ -149,6 +149,7 @@ begin
         elsif write_sel_port = '1' then
             read_port <= reg0(read_addr*6 to (read_addr*6)+5);
         end if;
+        
         
     end if;
 end process;

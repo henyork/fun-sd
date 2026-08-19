@@ -37,6 +37,8 @@ entity SPI_SD_controller is
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
         full_data_rec : in std_logic;
+        reset_addr_port : in std_logic;
+        
         reset_data_rec_port : out std_logic;
         
         CS_port     : out std_logic;
@@ -52,7 +54,7 @@ end SPI_SD_controller;
 architecture Behavioral of SPI_SD_controller is
 
 --states here
-type state is (prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, load_CMD16, check_CMD0, check_CMD8, check_CMD55, check_CMD41, check_CMD16, delay_CMD55, initialized, load_CMD17, check_CMD17, reset_data_rec, wait_data_rec_full, check_data,-- command specific states
+type state is (prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, load_CMD16, check_CMD0, check_CMD8, check_CMD55, check_CMD41, check_CMD16, delay_CMD55, initialized, load_CMD17, check_CMD17, reset_data_rec, wait_data_rec_full, data_done,-- command specific states
 start_shift, wait_idle, reset_receiver, wait_full, check_read, works, failed); -- generic states
 
 
@@ -66,7 +68,7 @@ constant command_CMD55  : std_logic_vector (0 to 47) := "01" & "110111" & (8 to 
 constant command_CMD41  : std_logic_vector (0 to 47) := "01" & "101001" & "01" & (10 to 39 => '0') & x"01";
 constant command_CMD16 : std_logic_vector (0 to 47) := "01"  & "010000" & x"000001E0"  & x"01";
 
-constant command_CMD17_start : std_logic_vector (0 to 7) := "01"  & "010001"; 
+constant command_CMD17_start : std_logic_vector (0 to 7) := "01"  & "010001"; --changed to CMD 18
 constant command_CMD17_csum : std_logic_vector (0 to 7) := x"01";
 signal address : std_logic_vector (31 downto 0) := (31 downto 1 => '0') & '0';
 
@@ -177,7 +179,7 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                 else
                     nextstate <= load_CMD17;
                 end if;
-           when check_data =>
+           when data_done =>
                     nextstate <= load_CMD17;
                     
                     -- toggling write sel is handled in a separate flip flop to avoid latches
@@ -185,8 +187,8 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                 nextstate <= wait_data_rec_full;
             when wait_data_rec_full =>
                 if full_data_rec = '1' then
-                    nextstate <= check_data;
-                        
+                    nextstate <= data_done;
+                
                 end if;
             
             when works =>
@@ -231,9 +233,13 @@ command_port <= (others => '0');
                 LED_EN <= '1';
             when reset_data_rec =>
                 reset_data_rec_port <= '1';
-            
-            
-            
+            when data_done =>
+                --toggling write_sel is done elsewhere to avoid creating latch
+                if reset_addr_port = '1' then
+                    address <= (31 downto 0 => '0');
+                else
+                    address <= (31 downto 0 => '0') & '1';
+                end if;
             when others =>
                 null;
                 --do nothing
@@ -282,8 +288,10 @@ command_flipflop : process(clk_port) begin -- store the current command during t
         end if;
         
         
-        if currentstate = check_data then
+        if currentstate = data_done then
             write_sel <= not write_sel;
+            if reset_addr_port = '1' then
+                write_sel <= '0';
         end if;
     end if;
 end process;

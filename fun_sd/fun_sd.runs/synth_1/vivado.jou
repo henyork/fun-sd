@@ -3,13 +3,13 @@
 # SW Build 6060944 on Thu Mar 06 19:10:01 MST 2025
 # IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
 # SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
-# Start of session at: Sun Aug 16 16:46:22 2026
-# Process ID         : 11084
-# Current directory  : O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.runs/synth_1
-# Command line       : vivado.exe -log vga_controller.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source vga_controller.tcl
-# Log file           : O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.runs/synth_1/vga_controller.vds
-# Journal file       : O:/ES31_S26/fun_sd/fun-sd/fun_sd/fun_sd.runs/synth_1\vivado.jou
-# Running On         : c011-10
+# Start of session at: Tue Aug 18 16:50:31 2026
+# Process ID         : 2944
+# Current directory  : O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1
+# Command line       : vivado.exe -log fun_sd_shell.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fun_sd_shell.tcl
+# Log file           : O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1/fun_sd_shell.vds
+# Journal file       : O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1\vivado.jou
+# Running On         : c011-07
 # Platform           : Windows Server 2016 or Windows 10
 # Operating System   : 26100
 # Processor Detail   : Intel(R) Core(TM) i7-14700
@@ -19,6 +19,6 @@
 # Host memory        : 34031 MB
 # Swap memory        : 2147 MB
 # Total Virtual      : 36178 MB
-# Available Virtual  : 22458 MB
+# Available Virtual  : 25109 MB
 #-----------------------------------------------------------
-source vga_controller.tcl -notrace
+source fun_sd_shell.tcl -notrace
