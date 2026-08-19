@@ -35,7 +35,7 @@ entity vga_controller is
 
         Hsync      : out std_logic;
         Vsync      : out std_logic;
-        pixel_request   : out std_logic;
+        register_done   : out std_logic;
         frame_done   : out std_logic
     );
 end vga_controller;
@@ -119,7 +119,19 @@ begin
                 else
                     h_count <= h_count + 1;
                 end if;
-                pixel_count <= pixel_count + 1;
+                
+                -- only increment pixel address counter if within region
+                if (h_count >= image_Xstart) and 
+                (h_count <= image_Xstop) and 
+                (v_count >= image_YStart) and 
+                (v_count <= image_Ystop) then
+                    pixel_count <= pixel_count + 1;
+                end if;
+                -- resets counter after reaches max pixels in the register
+                if  pixel_count <= "111111110000" then
+                    pixel_count <= (others => '0');
+                end if;
+                
             end if;
         end if;
     end process;
@@ -155,23 +167,34 @@ begin
     begin
     
         frame_done <= '0';
+        register_done <= '0';
         vgaRed   <= "00";
         vgaGreen   <= "00";
         vgaBlue   <= "00";
         
-        
+        --check for image being almost done
         if v_count = v_total - 1 then
             frame_done <= '1';
         end if;
         
-         pixel_address <= std_logic_vector(pixel_count);
-
+        --check for register being full 
+        if pixel_count = "111111110000" then 
+            register_done <= '1';
+        else 
+            register_done <= '0';
+        end if;
+       
+       
+       -- sends the location of the current pixel to the memory block
+        pixel_address <= std_logic_vector(pixel_count);
 
     --if in active region it will send out color 
         if (h_count >= image_Xstart) and 
            (h_count <= image_Xstop) and 
            (v_count >= image_YStart) and 
            (v_count <= image_Ystop) then
+           
+        pixel_count <= pixel_count + 1;
         
         if pixel_data = '1' then 
              vgaRed   <= "11";
