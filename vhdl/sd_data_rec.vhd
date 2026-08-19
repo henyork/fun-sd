@@ -39,7 +39,7 @@ Port (
     write_sel_port : in std_logic;
     read_port : out std_logic;
     reset_port : in std_logic;
-    read_addr_port : in std_logic_vector(8 downto 0);
+    read_addr_port : in std_logic_vector(11 downto 0);
     full_port : out std_logic
     
 
@@ -144,10 +144,10 @@ begin
         
         
         if write_sel_port = '0' then
-            read_port <= reg1(read_addr*6 to (read_addr*6)+5);
+            read_port <= reg1(read_addr);
 
         elsif write_sel_port = '1' then
-            read_port <= reg0(read_addr*6 to (read_addr*6)+5);
+            read_port <= reg0(read_addr);
         end if;
         
         

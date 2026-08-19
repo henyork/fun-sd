@@ -4,26 +4,15 @@ Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 Running: C:/Xilinx/Vivado/2024.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot sd_shell_tb_behav xil_defaultlib.sd_shell_tb -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
-Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling package std.standard
-Compiling package std.textio
-Compiling package ieee.std_logic_1164
-Compiling package ieee.numeric_std
-Compiling package ieee.math_real
-Compiling package unisim.vcomponents
-Compiling package ieee.vital_timing
-Compiling package ieee.vital_primitives
-Compiling package unisim.vpkg
-Compiling architecture behavioral of entity xil_defaultlib.SPI_SD_controller [spi_sd_controller_default]
-Compiling architecture bufg_v of entity unisim.BUFG [bufg_default]
-Compiling architecture oddr_v of entity unisim.ODDR [\ODDR(ddr_clk_edge="SAME_EDGE")(...]
-Compiling architecture behavioral_architecture of entity xil_defaultlib.system_clock_generator [\system_clock_generator(clock_di...]
-Compiling architecture behavioral of entity xil_defaultlib.sd_receiver [sd_receiver_default]
-Compiling architecture behavioral of entity xil_defaultlib.sd_data_rec [sd_data_rec_default]
-Compiling architecture behavioral of entity xil_defaultlib.sd_transmitter [sd_transmitter_default]
-Compiling architecture behavioral of entity xil_defaultlib.fun_sd_shell [fun_sd_shell_default]
-Compiling architecture testbench of entity xil_defaultlib.sd_shell_tb
-Built simulation snapshot sd_shell_tb_behav
+ERROR: [VRFC 10-3290] entity port 'vgared' does not match with type std_logic of component port [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:148]
+ERROR: [VRFC 10-666] expression has 9 elements; expected 4 [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:148]
+ERROR: [VRFC 10-3290] entity port 'vgagreen' does not match with type std_logic of component port [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:149]
+ERROR: [VRFC 10-666] expression has 9 elements; expected 4 [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:149]
+ERROR: [VRFC 10-3290] entity port 'vgablue' does not match with type std_logic of component port [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:150]
+ERROR: [VRFC 10-666] expression has 9 elements; expected 4 [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:150]
+ERROR: [VRFC 10-718] formal port <pixel_data> does not exist in entity <vga_controller>.  Please compare the definition of block <vga_controller> to its component declaration and its instantion to detect the mismatch. [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:144]
+ERROR: [VRFC 10-718] formal port <pixel_address> does not exist in entity <vga_controller>.  Please compare the definition of block <vga_controller> to its component declaration and its instantion to detect the mismatch. [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:146]
+ERROR: [VRFC 10-718] formal port <frame_done> does not exist in entity <vga_controller>.  Please compare the definition of block <vga_controller> to its component declaration and its instantion to detect the mismatch. [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:155]
+ERROR: [VRFC 10-718] formal port <register_done> does not exist in entity <vga_controller>.  Please compare the definition of block <vga_controller> to its component declaration and its instantion to detect the mismatch. [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:156]
+ERROR: [VRFC 10-3353] formal port 'reset_ext_port' has no actual or default value [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:47]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit sd_shell_tb in library work failed.

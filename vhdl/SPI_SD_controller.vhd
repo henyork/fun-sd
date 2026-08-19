@@ -21,6 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -70,8 +71,8 @@ constant command_CMD16 : std_logic_vector (0 to 47) := "01"  & "010000" & x"0000
 
 constant command_CMD17_start : std_logic_vector (0 to 7) := "01"  & "010001"; --changed to CMD 18
 constant command_CMD17_csum : std_logic_vector (0 to 7) := x"01";
-signal address : std_logic_vector (31 downto 0) := (31 downto 1 => '0') & '0';
-
+signal address : integer := 0;
+signal address_vector : std_logic_vector(31 downto 0) := (31 downto 0 => '0');
 signal command : std_logic_vector (0 to 47) := command_CMD0; -- set in load command state
 signal stored_command : std_logic_vector (0 to 47) := command_CMD0; --stores the command in a flip flop
 signal prep_tc : integer := 0;
@@ -89,7 +90,7 @@ stateUpdate: process(clk_port) begin
     end if;
 end process stateUpdate;
 
-next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc, wait_cmd55_tc, full_data_rec) begin 
+next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc, wait_cmd55_tc, full_data_rec, register_done_port) begin 
     
  nextstate <= currentstate;
         case(currentstate) is 
@@ -180,13 +181,15 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                     nextstate <= load_CMD17;
                 end if;
            when data_done =>
+           
+                    
                     nextstate <= load_CMD17;
                     
                     -- toggling write sel is handled in a separate flip flop to avoid latches
             when reset_data_rec => 
                 nextstate <= wait_data_rec_full;
             when wait_data_rec_full =>
-                if full_data_rec = '1' then
+                if full_data_rec = '1' and register_done_port = '1' then
                     nextstate <= data_done;
                 
                 end if;
@@ -233,13 +236,7 @@ command_port <= (others => '0');
                 LED_EN <= '1';
             when reset_data_rec =>
                 reset_data_rec_port <= '1';
-            when data_done =>
-                --toggling write_sel is done elsewhere to avoid creating latch
-                if reset_addr_port = '1' then
-                    address <= (31 downto 0 => '0');
-                else
-                    address <= (31 downto 0 => '0') & '1';
-                end if;
+            
             when others =>
                 null;
                 --do nothing
@@ -284,17 +281,22 @@ command_flipflop : process(clk_port) begin -- store the current command during t
         elsif currentstate = load_cmd16 then
             stored_command <= command_CMD16;
         elsif currentstate = load_cmd17 then
-            stored_command <= command_CMD17_start & address & command_CMD17_csum;
+            stored_command <= command_CMD17_start & address_vector & command_CMD17_csum;
         end if;
         
+        if reset_addr_port = '1' then
+                write_sel <= '0';
+                address <= 0;
+        end if;
         
         if currentstate = data_done then
             write_sel <= not write_sel;
-            if reset_addr_port = '1' then
-                write_sel <= '0';
-            end if;
+            
+            address <= address + 1;
+            
+            
         end if;
     end if;
 end process;
-
+address_vector <= std_logic_vector(to_unsigned(address,32));
 end Behavioral;

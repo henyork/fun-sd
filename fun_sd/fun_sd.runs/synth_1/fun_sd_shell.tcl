@@ -57,10 +57,12 @@ if {$::dispatch::connected} {
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param chipscope.maxJobs 7
+set_param checkpoint.writeSynthRtdsInDcp 1
 set_param xicom.use_bs_reader 1
-set_msg_config -id {Common 17-41} -limit 10000000
 set_msg_config -id {HDL 9-1061} -limit 100000
 set_msg_config -id {HDL 9-1654} -limit 100000
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-1
 
@@ -77,6 +79,7 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
+  O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd
   O:/ENGS31/fun-sd/fun_sd/fun_sd.srcs/sources_1/imports/vhdl/sd_receiever.vhd
   O:/ENGS31/fun-sd/vhdl/system_clock_generator.vhd
   O:/ENGS31/fun-sd/vhdl/sd_receiever_tb.vhd

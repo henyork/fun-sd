@@ -21,7 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
+use IEEE.NUMERIC_STD.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
@@ -39,11 +39,11 @@ entity fun_sd_shell is
         sd_mosi_ext_port : out std_logic;
         sd_miso_ext_port : in std_logic;
         led_ext_port : out std_logic;
-        hsync : out std_logic;
-        vsync : out std_logic;
-        vgaRed : out std_logic_vector(0 to 1);
-        vgaGreen : out std_logic_vector(0 to 1);
-        vgaBlue : out std_logic_vector(0 to 1);
+        Hsync : out std_logic;
+        Vsync : out std_logic;
+        vgaRed : out std_logic;
+        vgaGreen : out std_logic;
+        vgaBlue : out std_logic;
         reset_ext_port : in std_logic; -- this resets the vga controller
         led1 : out std_logic;
         led2 : out std_logic;
@@ -68,7 +68,7 @@ signal reset_data_rec : std_logic := '0';
 signal receiver_data   : std_logic_vector(0 to 39);
 signal transmitter_data :std_logic_vector(0 to 47);
 signal system_clk : std_logic := '0';
-signal read_addr : std_logic_vector(8 downto 0) := (others => '0');
+signal read_addr : std_logic_vector(11 downto 0) := (others => '0');
 signal write_sel : std_logic := '0';
 signal read_port : std_logic := '0';
 signal reset_addr : std_logic := '0';
@@ -121,7 +121,7 @@ component sd_transmitter is
     write_sel_port : in std_logic;
     read_port : out std_logic;
     reset_port : in std_logic;
-    read_addr_port : in std_logic_vector(8 downto 0);
+    read_addr_port : in std_logic_vector(11 downto 0);
     full_port : out std_logic                        
                                 
  );                                                     
@@ -145,14 +145,15 @@ component vga_controller is
         
         pixel_address   : out std_logic_vector(11 downto 0);
 
-        vgaRed     : out std_logic_vector(1 downto 0);
-        vgaGreen    : out std_logic_vector(1 downto 0);
-        vgaBlue     : out std_logic_vector(1 downto 0);
+        vgaRed     : out std_logic;
+        vgaGreen    : out std_logic;
+        vgaBlue     : out std_logic;
 
         Hsync      : out std_logic;
         Vsync      : out std_logic;
-        pixel_request   : out std_logic;
-        frame_done   : out std_logic
+        
+        frame_done   : out std_logic;
+        register_done : out std_logic
     );
 end component;
 
@@ -220,7 +221,7 @@ port map(
 
 vga : vga_controller
 port map(
-    clk_sys => clk_ext_port,
+    clk_sys => system_clk,
     reset => reset_ext_port,
     pixel_data => read_port,
     pixel_address => read_addr,

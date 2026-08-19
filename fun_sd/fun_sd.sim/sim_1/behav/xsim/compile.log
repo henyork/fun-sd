@@ -1,2 +1,2 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'SPI_SD_controller'
+INFO: [VRFC 10-163] Analyzing VHDL file "O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'fun_sd_shell'

@@ -29,9 +29,9 @@ entity vga_controller is
         
         pixel_address   : out std_logic_vector(11 downto 0);
 
-        vgaRed     : out std_logic_vector(1 downto 0);
-        vgaGreen    : out std_logic_vector(1 downto 0);
-        vgaBlue     : out std_logic_vector(1 downto 0);
+        vgaRed     : out std_logic;
+        vgaGreen    : out std_logic;
+        vgaBlue     : out std_logic;
 
         Hsync      : out std_logic;
         Vsync      : out std_logic;
@@ -73,31 +73,13 @@ ARCHITECTURE Behavioral of vga_controller is
 
    --pixel clock
 
-    signal clock_count : unsigned(1 downto 0) := (others => '0');
-    signal pixel_tick  : std_logic := '0';
+    
 
 
 
 begin
 
-   --converts system clock to pixel clock 
-    process(clk_sys)
-    begin
-        if rising_edge(clk_sys) then
-            if reset = '1' then
-                clock_count <= (others => '0');
-                pixel_tick  <= '0';
-            else
-                if clock_count = "11" then
-                    clock_count <= (others => '0');
-                    pixel_tick  <= '1';
-                else
-                    clock_count <= clock_count + 1;
-                    pixel_tick  <= '0';
-                end if;
-            end if;
-        end if;
-    end process;
+   
 
 --counters 
     process(clk_sys)
@@ -106,7 +88,8 @@ begin
             if reset = '1' then
                 h_count <= (others => '0');
                 v_count <= (others => '0');
-            elsif pixel_tick = '1' then
+                pixel_count <= (others => '0');
+           end if;
               --horzontal counter 
                 if h_count = H_TOTAL - 1 then
                     h_count <= (others => '0');
@@ -128,11 +111,11 @@ begin
                     pixel_count <= pixel_count + 1;
                 end if;
                 -- resets counter after reaches max pixels in the register
-                if  pixel_count <= "111111110000" then
+                if  pixel_count = "111111110000" then
                     pixel_count <= (others => '0');
                 end if;
-                
-            end if;
+             
+            
         end if;
     end process;
 
@@ -168,12 +151,12 @@ begin
     
         frame_done <= '0';
         register_done <= '0';
-        vgaRed   <= "00";
-        vgaGreen   <= "00";
-        vgaBlue   <= "00";
+        vgaRed   <= '0';
+        vgaGreen   <= '0';
+        vgaBlue   <= '0';
         
         --check for image being almost done
-        if v_count = v_total - 1 then
+        if v_count = 480-21 then
             frame_done <= '1';
         end if;
         
@@ -194,16 +177,16 @@ begin
            (v_count >= image_YStart) and 
            (v_count <= image_Ystop) then
            
-        pixel_count <= pixel_count + 1;
+        
         
         if pixel_data = '1' then 
-             vgaRed   <= "11";
-             vgaGreen   <= "11";
-             vgaBlue   <= "11";
+             vgaRed   <= '1';
+             vgaGreen   <= '1';
+             vgaBlue   <= '1';
         else 
-             vgaRed   <= "00";
-             vgaGreen   <= "00";
-             vgaBlue   <= "00";
+             vgaRed   <= '0';
+             vgaGreen   <= '0';
+             vgaBlue   <= '0';
         end if;
                 -- during active prjecting for 2 bit color 
                 --vgaRed <= pixel_data(5 downto 4);

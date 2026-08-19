@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1787092189">
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1787169696">
   <File Type="PA-TCL" Name="fun_sd_shell.tcl"/>
   <File Type="REPORTS-TCL" Name="fun_sd_shell_reports.tcl"/>
   <File Type="INIT-TIMING" Name="fun_sd_shell_timing_summary_init.rpt"/>
@@ -52,12 +52,12 @@
   <File Type="ROUTE-RQS-PB" Name="fun_sd_shell_rqs_routed.pb"/>
   <File Type="POSTROUTE-PHYSOPT-DCP" Name="fun_sd_shell_postroute_physopt.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="fun_sd_shell_postroute_physopt_bb.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="sd_data_rec_timing_summary_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="sd_data_rec_timing_summary_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="sd_data_rec_timing_summary_postroute_physopted.rpx"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="sd_data_rec_bus_skew_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="sd_data_rec_bus_skew_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="sd_data_rec_bus_skew_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="fun_sd_shell_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="fun_sd_shell_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="fun_sd_shell_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="fun_sd_shell_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="fun_sd_shell_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="fun_sd_shell_bus_skew_postroute_physopted.rpx"/>
   <File Type="BG-BIT" Name="fun_sd_shell.bit"/>
   <File Type="BG-BIN" Name="fun_sd_shell.bin"/>
   <File Type="BITSTR-MSK" Name="fun_sd_shell.msk"/>
@@ -88,7 +88,6 @@
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/../vhdl/VGA_controller_Acker.vhd">
       <FileInfo>
-        <Attr Name="UserDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
@@ -189,9 +188,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024">
-      <Desc>Default settings for Implementation.</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
     <Step Id="init_design"/>
     <Step Id="opt_design"/>
     <Step Id="power_opt_design"/>
