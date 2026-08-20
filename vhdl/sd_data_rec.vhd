@@ -52,8 +52,8 @@ architecture Behavioral of sd_data_rec is
 
 type state_type is (idle, shift, full);
 signal current_state, next_state : state_type := full;
-signal reg0 : std_logic_vector(0 to 4111) := "10100101" & (8 to 4111 => '0');
-signal reg1 : std_logic_vector(0 to 4111) := "00011000" & (8 to 4111 => '0');
+signal reg0 : std_logic_vector(0 to 4111) := "10100101" & (8 to 4111 => '1');
+signal reg1 : std_logic_vector(0 to 4111) := "00011000" & (8 to 4111 => '1');
 
 signal shift_count : integer := 0;
 signal read_addr : integer := 0;

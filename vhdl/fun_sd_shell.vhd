@@ -51,7 +51,8 @@ entity fun_sd_shell is
         led4 : out std_logic;
         led5 : out std_logic;
         led6 : out std_logic;
-        reset_data_rec_ext_port : out std_logic
+        reset_data_rec_ext_port : out std_logic;
+        enable_vga_ext_port : out std_logic
         
      );
 end fun_sd_shell;
@@ -73,6 +74,7 @@ signal write_sel : std_logic := '0';
 signal read_port : std_logic := '0';
 signal reset_addr : std_logic := '0';
 signal register_done : std_logic := '0';
+signal enable_vga : std_logic := '0';
 
 component SPI_SD_controller is
   Port (clk_port    : in std_logic;
@@ -82,6 +84,7 @@ component SPI_SD_controller is
         full_data_rec : in std_logic;
         reset_addr_port : in std_logic;
         register_done_port : in std_logic;
+        enable_vga : out std_logic;
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
@@ -142,7 +145,7 @@ component vga_controller is
         clk_sys     : in  std_logic;
         reset       : in  std_logic;
         pixel_data  : in std_logic;
-        
+        enable : in std_logic;
         pixel_address   : out std_logic_vector(11 downto 0);
 
         vgaRed     : out std_logic;
@@ -173,7 +176,7 @@ port map(
     start_en => start,
     reset_addr_port => reset_addr,
     register_done_port => register_done,
-    
+    enable_vga => enable_vga,
     reset => reset, -- this is to reset the receiever
     reset_data_rec_port => reset_data_rec,
     LED_EN => led_ext_port,
@@ -225,7 +228,7 @@ port map(
     reset => reset_ext_port,
     pixel_data => read_port,
     pixel_address => read_addr,
-    
+    enable => enable_vga,
     vgaRed => vgaRed,
     vgaGreen => vgaGreen,
     vgaBlue => vgaBlue,
@@ -238,5 +241,5 @@ port map(
 
 );
 reset_data_rec_ext_port <= reset_data_rec; --this is useful as a scope trigger, so it is output to an ext port
-
+enable_vga_ext_port <= enable_vga; -- for debugging
 end Behavioral;

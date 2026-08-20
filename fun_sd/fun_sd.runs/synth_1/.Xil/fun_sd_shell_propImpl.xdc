@@ -25,6 +25,8 @@ set_property src_info {type:XDC file:1 line:217 export:INPUT save:INPUT read:REA
 set_property PACKAGE_PIN B16 [get_ports {sd_sck_ext_port}]
 set_property src_info {type:XDC file:1 line:220 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN A15 [get_ports {reset_data_rec_ext_port}]
+set_property src_info {type:XDC file:1 line:223 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN A17 [get_ports {enable_vga_ext_port}]
 set_property src_info {type:XDC file:1 line:377 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN U18 [get_ports reset_ext_port]
 set_property src_info {type:XDC file:1 line:394 export:INPUT save:INPUT read:READ} [current_design]

@@ -41,7 +41,7 @@ entity SPI_SD_controller is
         reset_addr_port : in std_logic;
         register_done_port : in std_logic;
         reset_data_rec_port : out std_logic;
-        
+        enable_vga : out std_logic;
         CS_port     : out std_logic;
         start_en    :  out std_logic;
         reset       : out  std_logic;
@@ -80,6 +80,7 @@ signal wait_full_tc : integer := 0;
 signal wait_cmd55_tc : integer := 0;
 
 signal write_sel : std_logic := '0';
+signal enable_vga_signal: std_logic := '0';
 
 begin
  
@@ -191,7 +192,8 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
             when wait_data_rec_full =>
                 if full_data_rec = '1' and register_done_port = '1' then
                     nextstate <= data_done;
-                
+                elsif full_data_rec = '1' and enable_vga_signal = '0' then
+                    nextstate <= data_done;
                 end if;
             
             when works =>
@@ -272,6 +274,7 @@ command_flipflop : process(clk_port) begin -- store the current command during t
     if falling_edge(clk_port) then
         if currentstate = load_cmd0 then
             stored_command <= command_CMD0;
+            
         elsif currentstate = load_cmd8 then
             stored_command <= command_CMD8;
         elsif currentstate = load_cmd55 then
@@ -291,12 +294,14 @@ command_flipflop : process(clk_port) begin -- store the current command during t
         
         if currentstate = data_done then
             write_sel <= not write_sel;
-            
+            enable_vga_signal <= '1';
             address <= address + 1;
-            
-            
+        end if;
+        if currentstate = prep then
+            enable_vga_signal <= '0';
         end if;
     end if;
 end process;
 address_vector <= std_logic_vector(to_unsigned(address,32));
+enable_vga <= enable_vga_signal;
 end Behavioral;

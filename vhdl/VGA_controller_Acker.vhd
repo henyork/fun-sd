@@ -26,6 +26,7 @@ entity vga_controller is
         clk_sys     : in  std_logic;
         reset       : in  std_logic;
         pixel_data  : in std_logic;
+        enable      : in std_logic;
         
         pixel_address   : out std_logic_vector(11 downto 0);
 
@@ -90,6 +91,8 @@ begin
                 v_count <= (others => '0');
                 pixel_count <= (others => '0');
            end if;
+           
+          if enable = '1' then
               --horzontal counter 
                 if h_count = H_TOTAL - 1 then
                     h_count <= (others => '0');
@@ -101,7 +104,7 @@ begin
                     end if;
                 else
                     h_count <= h_count + 1;
-                end if;
+                end if; 
                 
                 -- only increment pixel address counter if within region
                 if (h_count >= image_Xstart) and 
@@ -114,9 +117,9 @@ begin
                 if  pixel_count = "111111110000" then
                     pixel_count <= (others => '0');
                 end if;
-             
+          end if;
             
-        end if;
+       end if;
     end process;
 
 
@@ -157,8 +160,8 @@ begin
         
         --check for image being almost done
         --if v_count = 480-21 then
-        --    frame_done <= '1';
-       -- end if;
+        --     frame_done <= '1';
+        --end if;
         
         --check for register being full 
         if pixel_count = "111111110000" then 
@@ -177,16 +180,15 @@ begin
            (v_count >= image_YStart) and 
            (v_count <= image_Ystop) then
            
-        
-        
+            
         if pixel_data = '1' then 
-             vgaRed   <= '1';
-             vgaGreen   <= '1';
-             vgaBlue   <= '1';
+            vgaRed   <= '1';
+            vgaGreen   <= '1';
+            vgaBlue   <= '1';
         else 
              vgaRed   <= '0';
              vgaGreen   <= '0';
-             vgaBlue   <= '0';
+            vgaBlue   <= '0';
         end if;
                 -- during active prjecting for 2 bit color 
                 --vgaRed <= pixel_data(5 downto 4);

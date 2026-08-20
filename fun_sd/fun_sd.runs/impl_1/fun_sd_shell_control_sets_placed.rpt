@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2.2 (win64) Build 6060944 Thu Mar 06 19:10:01 MST 2025
-| Date         : Wed Aug 19 22:01:36 2026
+| Date         : Thu Aug 20 12:02:49 2026
 | Host         : c011-05 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file fun_sd_shell_control_sets_placed.rpt
 | Design       : fun_sd_shell
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    22 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    55 |
+| Unused register locations in slices containing registers |    54 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -42,9 +42,9 @@ Table of Contents
 | Total control sets |    22 |
 | >= 0 to < 4        |     2 |
 | >= 4 to < 6        |     1 |
-| >= 6 to < 8        |     2 |
-| >= 8 to < 10       |     1 |
-| >= 10 to < 12      |     2 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     3 |
+| >= 10 to < 12      |     1 |
 | >= 12 to < 14      |     1 |
 | >= 14 to < 16      |     1 |
 | >= 16              |    12 |
@@ -58,43 +58,43 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              54 |           21 |
+| No           | No                    | No                     |              56 |           22 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |             110 |           30 |
-| Yes          | No                    | No                     |             118 |           39 |
+| No           | Yes                   | No                     |             100 |           25 |
+| Yes          | No                    | No                     |             118 |           34 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             111 |           34 |
+| Yes          | Yes                   | No                     |             120 |           34 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+----------------------------+-------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
-|        Clock Signal        |                  Enable Signal                  |           Set/Reset Signal           | Slice Load Count | Bel Load Count | Bels / Slice |
-+----------------------------+-------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
-| ~clock_gen/system_clk_port | transmitter/current_state                       |                                      |                1 |              1 |         1.00 |
-|  clk_ext_port_IBUF_BUFG    |                                                 |                                      |                1 |              2 |         2.00 |
-| ~clock_gen/system_clk_port |                                                 | transmitter/shift_reg[0]_i_1_n_0     |                2 |              4 |         2.00 |
-|  clock_gen/system_clk_port |                                                 |                                      |                3 |              7 |         2.33 |
-|  clock_gen/system_clk_port | receiever/full_port                             |                                      |                3 |              7 |         2.33 |
-|  clock_gen/system_clk_port | receiever/shift_enable                          |                                      |                5 |              8 |         1.60 |
-|  clock_gen/system_clk_port |                                                 | vga/h_count[9]_i_1_n_0               |                4 |             10 |         2.50 |
-|  clock_gen/system_clk_port | vga/h_count[9]_i_1_n_0                          | vga/v_count                          |                4 |             10 |         2.50 |
-|  clock_gen/system_clk_port | vga/pixel_count_0                               | vga/pixel_count[11]_i_1_n_0          |                3 |             12 |         4.00 |
-| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[2]_i_1_n_0   |                                      |                6 |             15 |         2.50 |
-|  clock_gen/system_clk_port | controller/FSM_onehot_currentstate[22]_i_1_n_0  |                                      |                7 |             23 |         3.29 |
-| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[2]_i_1_n_0   | controller/stored_command[8]_i_1_n_0 |               11 |             25 |         2.27 |
-|  clock_gen/system_clk_port |                                                 | controller/prep_tc                   |                8 |             32 |         4.00 |
-|  clock_gen/system_clk_port |                                                 | controller/wait_cmd55_tc             |                8 |             32 |         4.00 |
-|  clock_gen/system_clk_port |                                                 | controller/wait_full_tc              |                8 |             32 |         4.00 |
-|  clock_gen/system_clk_port | transmitter/current_state                       |                                      |                8 |             32 |         4.00 |
-|  clock_gen/system_clk_port | data_rec/shift_enable                           | data_rec/shift_count                 |                8 |             32 |         4.00 |
-|  clock_gen/system_clk_port | receiever/shift_enable                          | receiever/shift_count                |                8 |             32 |         4.00 |
-| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate_reg_n_0_[21] |                                      |                9 |             33 |         3.67 |
-| ~clock_gen/system_clk_port |                                                 |                                      |               17 |             45 |         2.65 |
-|  clock_gen/system_clk_port | data_rec/reg1                                   |                                      |               33 |            129 |         3.91 |
-|  clock_gen/system_clk_port | data_rec/reg0                                   |                                      |               33 |            129 |         3.91 |
-+----------------------------+-------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
++----------------------------+------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+|        Clock Signal        |                  Enable Signal                 |           Set/Reset Signal           | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------------------+------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+| ~clock_gen/system_clk_port | transmitter/current_state                      |                                      |                1 |              1 |         1.00 |
+|  clk_ext_port_IBUF_BUFG    |                                                |                                      |                1 |              2 |         2.00 |
+| ~clock_gen/system_clk_port |                                                | transmitter/shift_reg[0]_i_1_n_0     |                1 |              4 |         4.00 |
+|  clock_gen/system_clk_port | receiever/full_port                            |                                      |                3 |              7 |         2.33 |
+|  clock_gen/system_clk_port |                                                |                                      |                4 |              8 |         2.00 |
+|  clock_gen/system_clk_port | receiever/shift_enable                         |                                      |                3 |              8 |         2.67 |
+|  clock_gen/system_clk_port | vga/v_count[9]_i_2_n_0                         | vga/v_count[9]_i_1_n_0               |                3 |              9 |         3.00 |
+|  clock_gen/system_clk_port | controller/enable_vga_ext_port_OBUF            | controller/SR[0]                     |                5 |             10 |         2.00 |
+|  clock_gen/system_clk_port | vga/pixel_count[11]_i_2_n_0                    | vga/pixel_count[11]_i_1_n_0          |                3 |             12 |         4.00 |
+| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[2]_i_1_n_0  |                                      |                5 |             15 |         3.00 |
+|  clock_gen/system_clk_port | controller/FSM_onehot_currentstate[22]_i_1_n_0 |                                      |                5 |             23 |         4.60 |
+| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[2]_i_1_n_0  | controller/stored_command[8]_i_1_n_0 |                7 |             25 |         3.57 |
+|  clock_gen/system_clk_port |                                                | controller/prep_tc                   |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port |                                                | controller/wait_cmd55_tc             |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port |                                                | controller/wait_full_tc              |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port | data_rec/shift_enable                          | data_rec/shift_count                 |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port | receiever/shift_enable                         | receiever/shift_count                |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port | transmitter/current_state                      |                                      |                8 |             32 |         4.00 |
+| ~clock_gen/system_clk_port | controller/write_sel                           |                                      |                9 |             33 |         3.67 |
+| ~clock_gen/system_clk_port |                                                |                                      |               17 |             46 |         2.71 |
+|  clock_gen/system_clk_port | data_rec/reg1                                  |                                      |               33 |            129 |         3.91 |
+|  clock_gen/system_clk_port | data_rec/reg0                                  |                                      |               33 |            129 |         3.91 |
++----------------------------+------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
 
 

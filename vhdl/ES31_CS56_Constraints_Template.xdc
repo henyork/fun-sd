@@ -220,8 +220,8 @@ set_property PACKAGE_PIN B16 [get_ports {sd_sck_ext_port}]
 set_property PACKAGE_PIN A15 [get_ports {reset_data_rec_ext_port}]					
 	set_property IOSTANDARD LVCMOS33 [get_ports {reset_data_rec_ext_port}]
 ##Sch name = JB8
-#set_property PACKAGE_PIN A17 [get_ports {JB_ext_port[5]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[5]}]
+set_property PACKAGE_PIN A17 [get_ports {enable_vga_ext_port}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {enable_vga_ext_port}]
 ##Sch name = JB9
 #set_property PACKAGE_PIN C15 [get_ports {JB_ext_port[6]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JB_ext_port[6]}]
