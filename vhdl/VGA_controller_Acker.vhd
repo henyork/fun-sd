@@ -156,9 +156,9 @@ begin
         vgaBlue   <= '0';
         
         --check for image being almost done
-        if v_count = 480-21 then
-            frame_done <= '1';
-        end if;
+        --if v_count = 480-21 then
+        --    frame_done <= '1';
+       -- end if;
         
         --check for register being full 
         if pixel_count = "111111110000" then 

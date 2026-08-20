@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2.2 (win64) Build 6060944 Thu Mar 06 19:10:01 MST 2025
-| Date         : Wed Aug 19 16:02:07 2026
+| Date         : Wed Aug 19 22:01:11 2026
 | Host         : c011-05 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file fun_sd_shell_utilization_synth.rpt -pb fun_sd_shell_utilization_synth.pb
 | Design       : fun_sd_shell
@@ -31,8 +31,8 @@ Table of Contents
 +----------------------------+------+-------+------------+-----------+-------+
 |          Site Type         | Used | Fixed | Prohibited | Available | Util% |
 +----------------------------+------+-------+------------+-----------+-------+
-| Slice LUTs*                |  567 |     0 |          0 |     20800 |  2.73 |
-|   LUT as Logic             |  308 |     0 |          0 |     20800 |  1.48 |
+| Slice LUTs*                |  565 |     0 |          0 |     20800 |  2.72 |
+|   LUT as Logic             |  306 |     0 |          0 |     20800 |  1.47 |
 |   LUT as Memory            |  259 |     0 |          0 |      9600 |  2.70 |
 |     LUT as Distributed RAM |    0 |     0 |            |           |       |
 |     LUT as Shift Register  |  259 |     0 |            |           |       |
@@ -157,15 +157,15 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +----------+------+---------------------+
 | FDRE     |  393 |        Flop & Latch |
 | SRLC32E  |  259 |  Distributed Memory |
-| LUT2     |  174 |                 LUT |
+| LUT2     |  172 |                 LUT |
 | MUXF7    |  137 |               MuxFx |
 | CARRY4   |   82 |          CarryLogic |
-| LUT6     |   73 |                 LUT |
-| LUT4     |   71 |                 LUT |
+| LUT6     |   72 |                 LUT |
+| LUT4     |   70 |                 LUT |
 | MUXF8    |   68 |               MuxFx |
-| LUT3     |   41 |                 LUT |
-| LUT1     |   30 |                 LUT |
-| LUT5     |   28 |                 LUT |
+| LUT3     |   39 |                 LUT |
+| LUT5     |   35 |                 LUT |
+| LUT1     |   31 |                 LUT |
 | OBUF     |   10 |                  IO |
 | OBUFT    |    6 |                  IO |
 | IBUF     |    3 |                  IO |
