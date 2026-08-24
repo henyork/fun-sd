@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2.2 (win64) Build 6060944 Thu Mar 06 19:10:01 MST 2025
-| Date         : Thu Aug 20 12:02:49 2026
-| Host         : c011-05 running 64-bit major release  (build 9200)
+| Date         : Mon Aug 24 12:50:49 2026
+| Host         : c011-01 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file fun_sd_shell_control_sets_placed.rpt
 | Design       : fun_sd_shell
 | Device       : xc7a35t
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    22 |
-|    Minimum number of control sets                        |    22 |
+| Total control sets                                       |    23 |
+|    Minimum number of control sets                        |    23 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    54 |
+| Unused register locations in slices containing registers |    60 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    22 |
+| Total control sets |    23 |
 | >= 0 to < 4        |     2 |
 | >= 4 to < 6        |     1 |
 | >= 6 to < 8        |     1 |
-| >= 8 to < 10       |     3 |
-| >= 10 to < 12      |     1 |
-| >= 12 to < 14      |     1 |
+| >= 8 to < 10       |     2 |
+| >= 10 to < 12      |     3 |
+| >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     1 |
-| >= 16              |    12 |
+| >= 16              |    13 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,12 +58,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              56 |           22 |
+| No           | No                    | No                     |              56 |           21 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |             100 |           25 |
-| Yes          | No                    | No                     |             118 |           34 |
+| No           | Yes                   | No                     |             100 |           26 |
+| Yes          | No                    | No                     |              95 |           29 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             120 |           34 |
+| Yes          | Yes                   | No                     |             177 |           46 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -75,24 +75,25 @@ Table of Contents
 +----------------------------+------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
 | ~clock_gen/system_clk_port | transmitter/current_state                      |                                      |                1 |              1 |         1.00 |
 |  clk_ext_port_IBUF_BUFG    |                                                |                                      |                1 |              2 |         2.00 |
-| ~clock_gen/system_clk_port |                                                | transmitter/shift_reg[0]_i_1_n_0     |                1 |              4 |         4.00 |
-|  clock_gen/system_clk_port | receiever/full_port                            |                                      |                3 |              7 |         2.33 |
-|  clock_gen/system_clk_port |                                                |                                      |                4 |              8 |         2.00 |
+| ~clock_gen/system_clk_port |                                                | transmitter/shift_reg[0]_i_1_n_0     |                2 |              4 |         2.00 |
+|  clock_gen/system_clk_port | receiever/full_port                            |                                      |                2 |              7 |         3.50 |
 |  clock_gen/system_clk_port | receiever/shift_enable                         |                                      |                3 |              8 |         2.67 |
-|  clock_gen/system_clk_port | vga/v_count[9]_i_2_n_0                         | vga/v_count[9]_i_1_n_0               |                3 |              9 |         3.00 |
-|  clock_gen/system_clk_port | controller/enable_vga_ext_port_OBUF            | controller/SR[0]                     |                5 |             10 |         2.00 |
-|  clock_gen/system_clk_port | vga/pixel_count[11]_i_2_n_0                    | vga/pixel_count[11]_i_1_n_0          |                3 |             12 |         4.00 |
-| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[2]_i_1_n_0  |                                      |                5 |             15 |         3.00 |
-|  clock_gen/system_clk_port | controller/FSM_onehot_currentstate[22]_i_1_n_0 |                                      |                5 |             23 |         4.60 |
-| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[2]_i_1_n_0  | controller/stored_command[8]_i_1_n_0 |                7 |             25 |         3.57 |
-|  clock_gen/system_clk_port |                                                | controller/prep_tc                   |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port |                                                |                                      |                5 |              9 |         1.80 |
+|  clock_gen/system_clk_port | controller/enable_vga_ext_port_OBUF            | controller/SR[0]                     |                4 |             10 |         2.50 |
+|  clock_gen/system_clk_port | vga/v_count[9]_i_1_n_0                         |                                      |                4 |             10 |         2.50 |
+|  clock_gen/system_clk_port | vga/pixel_count[11]_i_2_n_0                    | vga/pixel_count[11]_i_1_n_0          |                3 |             11 |         3.67 |
+| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[3]_i_1_n_0  |                                      |                4 |             15 |         3.75 |
+|  clock_gen/system_clk_port | controller/FSM_onehot_currentstate[23]_i_1_n_0 |                                      |                7 |             23 |         3.29 |
+| ~clock_gen/system_clk_port | controller/FSM_onehot_currentstate[3]_i_1_n_0  | controller/stored_command[8]_i_1_n_0 |                4 |             25 |         6.25 |
 |  clock_gen/system_clk_port |                                                | controller/wait_cmd55_tc             |                8 |             32 |         4.00 |
 |  clock_gen/system_clk_port |                                                | controller/wait_full_tc              |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port |                                                | controller/prep_tc                   |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port | controller/FSM_onehot_currentstate_reg_n_0_[0] | controller/reset_counter             |                8 |             32 |         4.00 |
 |  clock_gen/system_clk_port | data_rec/shift_enable                          | data_rec/shift_count                 |                8 |             32 |         4.00 |
-|  clock_gen/system_clk_port | receiever/shift_enable                         | receiever/shift_count                |                8 |             32 |         4.00 |
+|  clock_gen/system_clk_port | receiever/shift_enable                         | receiever/shift_count[0]_i_1__0_n_0  |                8 |             32 |         4.00 |
 |  clock_gen/system_clk_port | transmitter/current_state                      |                                      |                8 |             32 |         4.00 |
-| ~clock_gen/system_clk_port | controller/write_sel                           |                                      |                9 |             33 |         3.67 |
-| ~clock_gen/system_clk_port |                                                |                                      |               17 |             46 |         2.71 |
+| ~clock_gen/system_clk_port | controller/write_sel                           | controller/enable_vga_signal_i_1_n_0 |               11 |             35 |         3.18 |
+| ~clock_gen/system_clk_port |                                                |                                      |               15 |             45 |         3.00 |
 |  clock_gen/system_clk_port | data_rec/reg1                                  |                                      |               33 |            129 |         3.91 |
 |  clock_gen/system_clk_port | data_rec/reg0                                  |                                      |               33 |            129 |         3.91 |
 +----------------------------+------------------------------------------------+--------------------------------------+------------------+----------------+--------------+

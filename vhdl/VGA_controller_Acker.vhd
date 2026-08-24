@@ -24,7 +24,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity vga_controller is
     Port (
         clk_sys     : in  std_logic;
-        reset       : in  std_logic;
+        reset      : in  std_logic;
         pixel_data  : in std_logic;
         enable      : in std_logic;
         
@@ -36,8 +36,7 @@ entity vga_controller is
 
         Hsync      : out std_logic;
         Vsync      : out std_logic;
-        register_done   : out std_logic;
-        frame_done   : out std_logic
+        register_done   : out std_logic
     );
 end vga_controller;
 
@@ -71,7 +70,7 @@ ARCHITECTURE Behavioral of vga_controller is
     signal h_count : unsigned(9 downto 0) := (others => '0');
     signal v_count : unsigned(9 downto 0) := (others => '0');
     signal pixel_count : unsigned(11 downto 0) := (others => '0');
-
+    signal reset_counter : integer := 0;
    --pixel clock
 
     
@@ -86,37 +85,39 @@ begin
     process(clk_sys)
     begin
         if rising_edge(clk_sys) then
-            if reset = '1' then
+            if enable = '0' then
                 h_count <= (others => '0');
                 v_count <= (others => '0');
                 pixel_count <= (others => '0');
+
            end if;
            
           if enable = '1' then
               --horzontal counter 
-                if h_count = H_TOTAL - 1 then
-                    h_count <= (others => '0');
-                   --increment vertricle coutner when end of horzontal coutner 
-                    if v_count = V_TOTAL - 1 then
-                        v_count <= (others => '0');
+                    if h_count = H_TOTAL - 1 then
+                        h_count <= (others => '0');
+                       --increment vertricle coutner when end of horzontal coutner 
+                        if v_count = V_TOTAL - 1 then
+                            v_count <= (others => '0');
+                        else
+                            v_count <= v_count + 1;
+                        end if;
                     else
-                        v_count <= v_count + 1;
+                        h_count <= h_count + 1;
+                    end if; 
+                    
+                    -- only increment pixel address counter if within region
+                    if (h_count >= image_Xstart) and 
+                    (h_count <= image_Xstop) and 
+                    (v_count >= image_YStart) and 
+                    (v_count <= image_Ystop) then
+                        pixel_count <= pixel_count + 1;
                     end if;
-                else
-                    h_count <= h_count + 1;
-                end if; 
-                
-                -- only increment pixel address counter if within region
-                if (h_count >= image_Xstart) and 
-                (h_count <= image_Xstop) and 
-                (v_count >= image_YStart) and 
-                (v_count <= image_Ystop) then
-                    pixel_count <= pixel_count + 1;
-                end if;
-                -- resets counter after reaches max pixels in the register
-                if  pixel_count = "111111110000" then
-                    pixel_count <= (others => '0');
-                end if;
+                    -- resets counter after reaches max pixels in the register
+                    if  pixel_count = "111111110000" then
+                        pixel_count <= (others => '0');
+                    end if;
+
           end if;
             
        end if;
@@ -124,7 +125,7 @@ begin
 
 
 --bit enable horizontal 
-    process(h_count)
+    process(h_count, enable)
     begin
         if (h_count >= H_ACTIVE + H_FRONT_PORCH) and
            (h_count <  H_ACTIVE + H_FRONT_PORCH + H_SYNC) then
@@ -132,17 +133,25 @@ begin
         else
             Hsync <= '1';
         end if;
+        
+        if enable = '0' then
+            Hsync <= '0';
+        end if;
     end process;
     
     
  --bit enable verticle
-    process(v_count)
+    process(v_count, enable)
     begin
         if (v_count >= V_ACTIVE + V_FRONT_PORCH) and
            (v_count <  V_ACTIVE + V_FRONT_PORCH + V_SYNC) then
             Vsync <= '0';
         else
             Vsync <= '1';
+        end if;
+        
+        if enable = '0' then
+            Vsync <= '0';
         end if;
             
     end process;
@@ -152,7 +161,7 @@ begin
     process(h_count, v_count)
     begin
     
-        frame_done <= '0';
+        
         register_done <= '0';
         vgaRed   <= '0';
         vgaGreen   <= '0';

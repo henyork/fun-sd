@@ -38,7 +38,6 @@ entity SPI_SD_controller is
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
         full_data_rec : in std_logic;
-        reset_addr_port : in std_logic;
         register_done_port : in std_logic;
         reset_data_rec_port : out std_logic;
         enable_vga : out std_logic;
@@ -47,7 +46,8 @@ entity SPI_SD_controller is
         reset       : out  std_logic;
         LED_EN      : out std_logic;
         command_port :   out std_logic_vector(0 to 47);
-        write_sel_port : out std_logic
+        write_sel_port : out std_logic;
+        reset_sys_port : in std_logic
  );
 end SPI_SD_controller;
 
@@ -55,11 +55,11 @@ end SPI_SD_controller;
 architecture Behavioral of SPI_SD_controller is
 
 --states here
-type state is (prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, load_CMD16, check_CMD0, check_CMD8, check_CMD55, check_CMD41, check_CMD16, delay_CMD55, initialized, load_CMD17, check_CMD17, reset_data_rec, wait_data_rec_full, data_done,-- command specific states
+type state is (reset_sys, prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, load_CMD16, check_CMD0, check_CMD8, check_CMD55, check_CMD41, check_CMD16, delay_CMD55, initialized, load_CMD17, check_CMD17, reset_data_rec, wait_data_rec_full, data_done,-- command specific states
 start_shift, wait_idle, reset_receiver, wait_full, check_read, works, failed); -- generic states
 
 
-signal currentstate, nextstate: state := prep;
+signal currentstate, nextstate: state := reset_sys;
 
 --signals here
 
@@ -78,7 +78,7 @@ signal stored_command : std_logic_vector (0 to 47) := command_CMD0; --stores the
 signal prep_tc : integer := 0;
 signal wait_full_tc : integer := 0;
 signal wait_cmd55_tc : integer := 0;
-
+signal reset_counter : integer := 0;
 signal write_sel : std_logic := '0';
 signal enable_vga_signal: std_logic := '0';
 
@@ -91,10 +91,14 @@ stateUpdate: process(clk_port) begin
     end if;
 end process stateUpdate;
 
-next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc, wait_cmd55_tc, full_data_rec, register_done_port) begin 
+next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_full_tc, wait_cmd55_tc, full_data_rec, register_done_port, reset_sys_port) begin 
     
  nextstate <= currentstate;
         case(currentstate) is 
+            when reset_sys =>
+                if reset_sys_port = '0' and reset_counter > 500000 then
+                    nextstate <= prep;
+                end if;
             when prep =>
                 if prep_tc > 80 and idle_trans = '1' then
                     nextstate <= load_CMD0;
@@ -140,8 +144,10 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                     else 
                         nextstate <= check_CMD0;
                     end if;
+                elsif reset_sys_port = '1' then
+                    nextstate <= reset_sys;
                 elsif wait_full_tc > 100 then
-                    nextstate <= prep;
+                    nextstate <= reset_sys;
                 end if;
             when check_CMD0 =>
                 if receiver_reg(0 to 7) = "00000001" then
@@ -182,19 +188,27 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                     nextstate <= load_CMD17;
                 end if;
            when data_done =>
-           
                     
-                    nextstate <= load_CMD17;
+                    
+                nextstate <= load_CMD17;
+                if reset_sys_port = '1' then
+                    nextstate <= reset_sys;
+                end if;
                     
                     -- toggling write sel is handled in a separate flip flop to avoid latches
             when reset_data_rec => 
                 nextstate <= wait_data_rec_full;
             when wait_data_rec_full =>
+                
                 if full_data_rec = '1' and register_done_port = '1' then
                     nextstate <= data_done;
                 elsif full_data_rec = '1' and enable_vga_signal = '0' then
                     nextstate <= data_done;
                 end if;
+                if reset_sys_port = '1' then
+                      nextstate <= reset_sys;
+                end if;
+                
             
             when works =>
                 nextstate <= load_CMD8;
@@ -224,12 +238,11 @@ reset_data_rec_port <= '0';
 command <= (others => '0');
 command_port <= (others => '0');
 
+
        case currentstate is 
 
-           
             when start_shift =>
                 command_port <= stored_command;
-                
                 reset <= '0';
                 start_en <= '1';
             when reset_receiver =>
@@ -265,6 +278,12 @@ counter : process(clk_port) begin
             wait_cmd55_tc <= 0;
         end if;
         
+        if currentstate = reset_sys then 
+           reset_counter <= reset_counter + 1;
+           if reset_sys_port = '1' then
+                reset_counter <= 0;
+           end if;
+        end if;
         
         
     end if;
@@ -286,20 +305,20 @@ command_flipflop : process(clk_port) begin -- store the current command during t
         elsif currentstate = load_cmd17 then
             stored_command <= command_CMD17_start & address_vector & command_CMD17_csum;
         end if;
-        
-        if reset_addr_port = '1' then
-                write_sel <= '0';
-                address <= 0;
-        end if;
+
         
         if currentstate = data_done then
             write_sel <= not write_sel;
             enable_vga_signal <= '1';
             address <= address + 1;
         end if;
-        if currentstate = prep then
+        
+        if currentstate = prep or currentstate = reset_sys then
             enable_vga_signal <= '0';
+            write_sel <= '0';
+            address <= 0;
         end if;
+
     end if;
 end process;
 address_vector <= std_logic_vector(to_unsigned(address,32));

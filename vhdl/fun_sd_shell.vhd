@@ -76,13 +76,13 @@ signal reset_addr : std_logic := '0';
 signal register_done : std_logic := '0';
 signal enable_vga : std_logic := '0';
 
+
 component SPI_SD_controller is
   Port (clk_port    : in std_logic;
         receiver_reg   : in std_logic_vector(0 to 39);
         idle_trans     : in std_logic;
         full_rec        : in std_logic;
         full_data_rec : in std_logic;
-        reset_addr_port : in std_logic;
         register_done_port : in std_logic;
         enable_vga : out std_logic;
         CS_port     : out std_logic;
@@ -91,7 +91,8 @@ component SPI_SD_controller is
         reset_data_rec_port : out std_logic;
         LED_EN      : out std_logic;
         command_port :   out std_logic_vector(0 to 47);
-        write_sel_port : out std_logic
+        write_sel_port : out std_logic;
+        reset_sys_port : in std_logic
         
  );
 end component;
@@ -155,7 +156,7 @@ component vga_controller is
         Hsync      : out std_logic;
         Vsync      : out std_logic;
         
-        frame_done   : out std_logic;
+        
         register_done : out std_logic
     );
 end component;
@@ -174,14 +175,14 @@ port map(
     full_data_rec => full_data_rec,
     CS_port => sd_cs_ext_port,
     start_en => start,
-    reset_addr_port => reset_addr,
     register_done_port => register_done,
     enable_vga => enable_vga,
     reset => reset, -- this is to reset the receiever
     reset_data_rec_port => reset_data_rec,
     LED_EN => led_ext_port,
     command_port => transmitter_data,
-    write_sel_port => write_sel
+    write_sel_port => write_sel,
+    reset_sys_port => reset_ext_port
 );
 
 clock_gen : system_clock_generator 
@@ -235,8 +236,7 @@ port map(
 
     Hsync => Hsync,
     Vsync => Vsync,
-    register_done => register_done,
-    frame_done => reset_addr
+    register_done => register_done
 
 
 );
