@@ -97,8 +97,11 @@ proc step_failed { step } {
 OPTRACE "impl_1" END { }
 }
 
+set_msg_config -id {Common 17-41} -limit 10000000
 set_msg_config -id {HDL 9-1061} -limit 100000
 set_msg_config -id {HDL 9-1654} -limit 100000
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 
 OPTRACE "impl_1" START { ROLLUP_1 }
 OPTRACE "Phase: Init Design" START { ROLLUP_AUTO }
@@ -106,9 +109,11 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param chipscope.maxJobs 7
+  set_param chipscope.maxJobs 6
+  set_param synth.incrementalSynthesisCache C:/Users/LOCAL_~3/Temp/.Xil_f007b0d/Vivado-230628-cadlab-09/incrSyn
+  set_param checkpoint.writeSynthRtdsInDcp 1
   set_param xicom.use_bs_reader 1
-  set_param runs.launchOptions { -jobs 14  }
+  set_param runs.launchOptions { -jobs 12  }
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7a35tcpg236-1
   set_property board_part digilentinc.com:basys3:part0:1.2 [current_project]

@@ -59,7 +59,7 @@ type state is (reset_sys, prep, load_CMD0, load_CMD8, load_CMD55, load_CMD41, lo
 start_shift, wait_idle, reset_receiver, wait_full, check_read, works, failed); -- generic states
 
 
-signal currentstate, nextstate: state := reset_sys;
+signal currentstate, nextstate: state := prep;
 
 --signals here
 
@@ -71,8 +71,9 @@ constant command_CMD16 : std_logic_vector (0 to 47) := "01"  & "010000" & x"0000
 
 constant command_CMD17_start : std_logic_vector (0 to 7) := "01"  & "010001"; --changed to CMD 18
 constant command_CMD17_csum : std_logic_vector (0 to 7) := x"01";
-signal address : integer := 0;
+signal address : unsigned(31 downto 0) := (31 downto 0 => '0');
 signal address_vector : std_logic_vector(31 downto 0) := (31 downto 0 => '0');
+
 signal command : std_logic_vector (0 to 47) := command_CMD0; -- set in load command state
 signal stored_command : std_logic_vector (0 to 47) := command_CMD0; --stores the command in a flip flop
 signal prep_tc : integer := 0;
@@ -81,7 +82,7 @@ signal wait_cmd55_tc : integer := 0;
 signal reset_counter : integer := 0;
 signal write_sel : std_logic := '0';
 signal enable_vga_signal: std_logic := '0';
-
+signal led_en_signal : std_logic := '0';
 begin
  
 --clock
@@ -96,7 +97,7 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
  nextstate <= currentstate;
         case(currentstate) is 
             when reset_sys =>
-                if reset_sys_port = '0' and reset_counter > 500000 then
+                if reset_sys_port = '0' and reset_counter > 5000000 then
                     nextstate <= prep;
                 end if;
             when prep =>
@@ -144,10 +145,8 @@ next_state_logic : process(currentstate, prep_tc, idle_trans, full_rec, wait_ful
                     else 
                         nextstate <= check_CMD0;
                     end if;
-                elsif reset_sys_port = '1' then
-                    nextstate <= reset_sys;
                 elsif wait_full_tc > 100 then
-                    nextstate <= reset_sys;
+                    nextstate <= prep;
                 end if;
             when check_CMD0 =>
                 if receiver_reg(0 to 7) = "00000001" then
@@ -233,7 +232,6 @@ output_logic : process(currentstate) begin
 CS_port    <= '0';
 start_en   <= '0';
 reset      <= '0';
-LED_EN     <= '0';
 reset_data_rec_port <= '0';
 command <= (others => '0');
 command_port <= (others => '0');
@@ -248,7 +246,7 @@ command_port <= (others => '0');
             when reset_receiver =>
                 reset <= '1';
             when wait_data_rec_full =>
-                LED_EN <= '1';
+                null;
             when reset_data_rec =>
                 reset_data_rec_port <= '1';
             
@@ -278,11 +276,11 @@ counter : process(clk_port) begin
             wait_cmd55_tc <= 0;
         end if;
         
+        if reset_sys_port = '1' then
+            reset_counter <= 0;
+        end if;
         if currentstate = reset_sys then 
            reset_counter <= reset_counter + 1;
-           if reset_sys_port = '1' then
-                reset_counter <= 0;
-           end if;
         end if;
         
         
@@ -305,22 +303,37 @@ command_flipflop : process(clk_port) begin -- store the current command during t
         elsif currentstate = load_cmd17 then
             stored_command <= command_CMD17_start & address_vector & command_CMD17_csum;
         end if;
-
+        
+        if currentstate = check_cmd17 then
+            if  not (receiver_reg(0 to 7) = "00000000") then
+                --if not receiver_reg(0 to 7) = "00000000" then
+                   led_en_signal <= '1';
+             end if;      
+                --end if;
+        end if;
+        
         
         if currentstate = data_done then
             write_sel <= not write_sel;
             enable_vga_signal <= '1';
             address <= address + 1;
+            --if address = (31 downto 8 => '0') & x"8f" then --8f
+            --    address <= (31 downto 8 => '0') & x"78"; --78
+            --end if;
         end if;
         
         if currentstate = prep or currentstate = reset_sys then
             enable_vga_signal <= '0';
             write_sel <= '0';
-            address <= 0;
+            address <= (31 downto 8 => '0') & x"90"; --78
+            --address <= (31 downto 0 => '0');
+         
         end if;
 
     end if;
 end process;
-address_vector <= std_logic_vector(to_unsigned(address,32));
+--address_vector <= std_logic_vector(to_unsigned(address,32));
+address_vector <= std_logic_vector(address);
 enable_vga <= enable_vga_signal;
+led_en <= led_en_signal;
 end Behavioral;

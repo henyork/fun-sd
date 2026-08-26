@@ -89,9 +89,9 @@ begin
                 h_count <= (others => '0');
                 v_count <= (others => '0');
                 pixel_count <= (others => '0');
-
+                
            end if;
-           
+          register_done <= '0'; 
           if enable = '1' then
               --horzontal counter 
                     if h_count = H_TOTAL - 1 then
@@ -114,8 +114,9 @@ begin
                         pixel_count <= pixel_count + 1;
                     end if;
                     -- resets counter after reaches max pixels in the register
-                    if  pixel_count = "111111110000" then
+                    if  pixel_count = "111111101111" then --one less than max pixel count
                         pixel_count <= (others => '0');
+                        register_done <= '1'; 
                     end if;
 
           end if;
@@ -162,7 +163,7 @@ begin
     begin
     
         
-        register_done <= '0';
+        --register_done <= '0';
         vgaRed   <= '0';
         vgaGreen   <= '0';
         vgaBlue   <= '0';
@@ -173,11 +174,11 @@ begin
         --end if;
         
         --check for register being full 
-        if pixel_count = "111111110000" then 
-            register_done <= '1';
-        else 
-            register_done <= '0';
-        end if;
+        --if pixel_count = "111111110000" then 
+        --    register_done <= '1';
+        --else 
+        --    register_done <= '0';
+        --end if;
        
        
        -- sends the location of the current pixel to the memory block

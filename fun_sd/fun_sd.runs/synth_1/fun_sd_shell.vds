@@ -3,23 +3,23 @@
 # SW Build 6060944 on Thu Mar 06 19:10:01 MST 2025
 # IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
 # SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
-# Start of session at: Mon Aug 24 12:49:53 2026
-# Process ID         : 5364
+# Start of session at: Mon Aug 24 23:24:09 2026
+# Process ID         : 244128
 # Current directory  : O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1
 # Command line       : vivado.exe -log fun_sd_shell.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fun_sd_shell.tcl
 # Log file           : O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1/fun_sd_shell.vds
 # Journal file       : O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1\vivado.jou
-# Running On         : c011-01
+# Running On         : cadlab-09
 # Platform           : Windows Server 2016 or Windows 10
 # Operating System   : 26100
-# Processor Detail   : Intel(R) Core(TM) i7-14700
-# CPU Frequency      : 2112 MHz
-# CPU Physical cores : 20
-# CPU Logical cores  : 28
-# Host memory        : 34031 MB
-# Swap memory        : 3229 MB
-# Total Virtual      : 37260 MB
-# Available Virtual  : 6675 MB
+# Processor Detail   : 12th Gen Intel(R) Core(TM) i9-12900
+# CPU Frequency      : 2419 MHz
+# CPU Physical cores : 16
+# CPU Logical cores  : 24
+# Host memory        : 33979 MB
+# Swap memory        : 2147 MB
+# Total Virtual      : 36127 MB
+# Available Virtual  : 10503 MB
 #-----------------------------------------------------------
 source fun_sd_shell.tcl -notrace
 Command: read_checkpoint -auto_incremental -incremental O:/ENGS31/fun-sd/fun_sd/fun_sd.srcs/utils_1/imports/synth_1/fun_sd_shell.dcp
@@ -34,18 +34,18 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 46340
+INFO: [Synth 8-7075] Helper process launched with PID 241840
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 991.223 ; gain = 469.160
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 989.730 ; gain = 469.188
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'fun_sd_shell' [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:60]
 INFO: [Synth 8-3491] module 'SPI_SD_controller' declared at 'O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:35' bound to instance 'controller' of component 'SPI_SD_controller' [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:169]
 INFO: [Synth 8-638] synthesizing module 'SPI_SD_controller' [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:55]
-WARNING: [Synth 8-614] signal 'reset_counter' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:94]
-WARNING: [Synth 8-614] signal 'stored_command' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:94]
-WARNING: [Synth 8-614] signal 'receiver_reg' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:94]
-WARNING: [Synth 8-614] signal 'enable_vga_signal' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:94]
-WARNING: [Synth 8-614] signal 'stored_command' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:232]
+WARNING: [Synth 8-614] signal 'reset_counter' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:95]
+WARNING: [Synth 8-614] signal 'stored_command' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:95]
+WARNING: [Synth 8-614] signal 'receiver_reg' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:95]
+WARNING: [Synth 8-614] signal 'enable_vga_signal' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:95]
+WARNING: [Synth 8-614] signal 'stored_command' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:231]
 INFO: [Synth 8-256] done synthesizing module 'SPI_SD_controller' (0#1) [O:/ENGS31/fun-sd/vhdl/SPI_SD_controller.vhd:55]
 	Parameter CLOCK_DIVIDER_RATIO bound to: 4 - type: integer 
 INFO: [Synth 8-3491] module 'system_clock_generator' declared at 'O:/ENGS31/fun-sd/vhdl/system_clock_generator.vhd:14' bound to instance 'clock_gen' of component 'system_clock_generator' [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:188]
@@ -72,8 +72,8 @@ INFO: [Synth 8-226] default block is never used [O:/ENGS31/fun-sd/vhdl/sd_transm
 INFO: [Synth 8-256] done synthesizing module 'sd_transmitter' (0#1) [O:/ENGS31/fun-sd/vhdl/sd_transmitter.vhd:47]
 INFO: [Synth 8-3491] module 'vga_controller' declared at 'O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd:24' bound to instance 'vga' of component 'vga_controller' [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:226]
 INFO: [Synth 8-638] synthesizing module 'vga_controller' [O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd:44]
-WARNING: [Synth 8-614] signal 'pixel_count' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd:161]
-WARNING: [Synth 8-614] signal 'pixel_data' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd:161]
+WARNING: [Synth 8-614] signal 'pixel_count' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd:162]
+WARNING: [Synth 8-614] signal 'pixel_data' is read in the process but is not in the sensitivity list [O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd:162]
 INFO: [Synth 8-256] done synthesizing module 'vga_controller' (0#1) [O:/ENGS31/fun-sd/vhdl/VGA_controller_Acker.vhd:44]
 INFO: [Synth 8-256] done synthesizing module 'fun_sd_shell' (0#1) [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:60]
 WARNING: [Synth 8-3848] Net led1 in module/entity fun_sd_shell does not have driver. [O:/ENGS31/fun-sd/vhdl/fun_sd_shell.vhd:48]
@@ -122,18 +122,18 @@ WARNING: [Synth 8-7129] Port led4 in module fun_sd_shell is either unconnected o
 WARNING: [Synth 8-7129] Port led5 in module fun_sd_shell is either unconnected or has no load
 WARNING: [Synth 8-7129] Port led6 in module fun_sd_shell is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1105.090 ; gain = 583.027
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1103.715 ; gain = 583.172
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1105.090 ; gain = 583.027
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1103.715 ; gain = 583.172
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1105.090 ; gain = 583.027
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1103.715 ; gain = 583.172
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.033 . Memory (MB): peak = 1105.090 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.035 . Memory (MB): peak = 1103.715 ; gain = 0.000
 INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
@@ -146,28 +146,28 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/fun_sd_shell_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1200.574 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1199.551 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.024 . Memory (MB): peak = 1200.574 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.024 . Memory (MB): peak = 1199.551 ; gain = 0.000
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 1200.574 ; gain = 678.512
+Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 1199.551 ; gain = 679.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tcpg236-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 1200.574 ; gain = 678.512
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 1199.551 ; gain = 679.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 1200.574 ; gain = 678.512
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 1199.551 ; gain = 679.008
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'currentstate_reg' in module 'SPI_SD_controller'
 INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'sd_receiver'
@@ -175,29 +175,29 @@ INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in modul
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-               reset_sys |         000000000000000000000001 |                            00000
-                    prep |         000000000000000000000010 |                            00001
-               load_cmd0 |         000000000000000000000100 |                            00010
-             start_shift |         000000000000000000001000 |                            10011
-               wait_idle |         000000000000000000010000 |                            10100
-          reset_receiver |         000000000000000000100000 |                            10101
-               wait_full |         000000000000000001000000 |                            10110
-              check_cmd0 |         000000000000000010000000 |                            00111
-                   works |         000000000000000100000000 |                            11000
-               load_cmd8 |         000000000000001000000000 |                            00011
-                  failed |         000000000000010000000000 |                            11001
-              check_cmd8 |         000000000000100000000000 |                            01000
-             check_cmd55 |         000000000001000000000000 |                            01001
-              load_cmd41 |         000000000010000000000000 |                            00101
-             check_cmd41 |         000000000100000000000000 |                            01010
-             delay_cmd55 |         000000001000000000000000 |                            01100
-              load_cmd55 |         000000010000000000000000 |                            00100
-             check_cmd16 |         000000100000000000000000 |                            01011
-              load_cmd16 |         000001000000000000000000 |                            00110
-             check_cmd17 |         000010000000000000000000 |                            01111
-          reset_data_rec |         000100000000000000000000 |                            10000
-      wait_data_rec_full |         001000000000000000000000 |                            10001
-               data_done |         010000000000000000000000 |                            10010
+                    prep |         000000000000000000000001 |                            00001
+               load_cmd0 |         000000000000000000000010 |                            00010
+             start_shift |         000000000000000000000100 |                            10011
+               wait_idle |         000000000000000000001000 |                            10100
+          reset_receiver |         000000000000000000010000 |                            10101
+               wait_full |         000000000000000000100000 |                            10110
+              check_cmd0 |         000000000000000001000000 |                            00111
+                   works |         000000000000000010000000 |                            11000
+               load_cmd8 |         000000000000000100000000 |                            00011
+                  failed |         000000000000001000000000 |                            11001
+              check_cmd8 |         000000000000010000000000 |                            01000
+             check_cmd55 |         000000000000100000000000 |                            01001
+              load_cmd41 |         000000000001000000000000 |                            00101
+             check_cmd41 |         000000000010000000000000 |                            01010
+             delay_cmd55 |         000000000100000000000000 |                            01100
+              load_cmd55 |         000000001000000000000000 |                            00100
+             check_cmd16 |         000000010000000000000000 |                            01011
+              load_cmd16 |         000000100000000000000000 |                            00110
+             check_cmd17 |         000001000000000000000000 |                            01111
+          reset_data_rec |         000010000000000000000000 |                            10000
+      wait_data_rec_full |         000100000000000000000000 |                            10001
+               data_done |         001000000000000000000000 |                            10010
+               reset_sys |         010000000000000000000000 |                            00000
               load_cmd17 |         100000000000000000000000 |                            01110
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'currentstate_reg' using encoding 'one-hot' in module 'SPI_SD_controller'
@@ -218,7 +218,7 @@ INFO: [Synth 8-3354] encoded FSM with state register 'current_state_reg' using e
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'current_state_reg' using encoding 'one-hot' in module 'sd_data_rec'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 1200.574 ; gain = 678.512
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 1199.551 ; gain = 679.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -234,7 +234,7 @@ Detailed RTL Component Info :
 	               39 Bit    Registers := 1     
 	               12 Bit    Registers := 1     
 	               10 Bit    Registers := 2     
-	                1 Bit    Registers := 7     
+	                1 Bit    Registers := 9     
 +---Muxes : 
 	   5 Input   48 Bit        Muxes := 1     
 	   6 Input   48 Bit        Muxes := 1     
@@ -273,25 +273,25 @@ WARNING: [Synth 8-7129] Port led4 in module fun_sd_shell is either unconnected o
 WARNING: [Synth 8-7129] Port led5 in module fun_sd_shell is either unconnected or has no load
 WARNING: [Synth 8-7129] Port led6 in module fun_sd_shell is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 1200.574 ; gain = 678.512
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:16 . Memory (MB): peak = 1199.551 ; gain = 679.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 1295.449 ; gain = 773.387
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:19 . Memory (MB): peak = 1293.023 ; gain = 772.480
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 1296.953 ; gain = 774.891
+Finished Timing Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:19 . Memory (MB): peak = 1294.066 ; gain = 773.523
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 1325.570 ; gain = 803.508
+Finished Technology Mapping : Time (s): cpu = 00:00:15 ; elapsed = 00:00:20 . Memory (MB): peak = 1322.691 ; gain = 802.148
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -309,37 +309,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Finished IO Insertion : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
@@ -381,42 +381,43 @@ Report Cell Usage:
 |1     |BUFG    |     2|
 |2     |CARRY4  |    94|
 |3     |LUT1    |    34|
-|4     |LUT2    |   206|
-|5     |LUT3    |    17|
-|6     |LUT4    |    62|
-|7     |LUT5    |    24|
-|8     |LUT6    |    86|
+|4     |LUT2    |   200|
+|5     |LUT3    |    22|
+|6     |LUT4    |    61|
+|7     |LUT5    |    21|
+|8     |LUT6    |    91|
 |9     |MUXF7   |   137|
 |10    |MUXF8   |    68|
 |11    |ODDR    |     1|
 |12    |SRLC32E |   259|
-|13    |FDRE    |   427|
-|14    |IBUF    |     3|
-|15    |OBUF    |    11|
-|16    |OBUFT   |     6|
+|13    |FDRE    |   426|
+|14    |FDSE    |     3|
+|15    |IBUF    |     3|
+|16    |OBUF    |    11|
+|17    |OBUFT   |     6|
 +------+--------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 8 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:11 ; elapsed = 00:00:19 . Memory (MB): peak = 1522.262 ; gain = 904.715
-Synthesis Optimization Complete : Time (s): cpu = 00:00:16 ; elapsed = 00:00:21 . Memory (MB): peak = 1522.262 ; gain = 1000.199
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:12 ; elapsed = 00:00:20 . Memory (MB): peak = 1519.410 ; gain = 903.031
+Synthesis Optimization Complete : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1519.410 ; gain = 998.867
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 1522.262 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 1519.410 ; gain = 0.000
 INFO: [Netlist 29-17] Analyzing 300 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1522.262 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1519.410 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete | Checksum: 171ddb26
+Synth Design complete | Checksum: 1299c7a5
 INFO: [Common 17-83] Releasing license: Synthesis
 52 Infos, 63 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:18 ; elapsed = 00:00:25 . Memory (MB): peak = 1522.262 ; gain = 1191.133
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.026 . Memory (MB): peak = 1522.262 ; gain = 0.000
+synth_design: Time (s): cpu = 00:00:19 ; elapsed = 00:00:27 . Memory (MB): peak = 1519.410 ; gain = 1187.953
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.025 . Memory (MB): peak = 1519.410 ; gain = 0.000
 INFO: [Common 17-1381] The checkpoint 'O:/ENGS31/fun-sd/fun_sd/fun_sd.runs/synth_1/fun_sd_shell.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file fun_sd_shell_utilization_synth.rpt -pb fun_sd_shell_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Mon Aug 24 12:50:23 2026...
+INFO: [Common 17-206] Exiting Vivado at Mon Aug 24 23:24:42 2026...
